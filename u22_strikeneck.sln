@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "u22_strikeneck", "u22_strikeneck\u22_strikeneck.csproj", "{B3A3EA1D-5E2F-4BFC-B1A9-71DF7F6EA988}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "u22_strikeneck", "u22_strikeneck\u22_strikeneck.csproj", "{B3A3EA1D-5E2F-4BFC-B1A9-71DF7F6EA988}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewFLD", "NewFLD\NewFLD.csproj", "{16E59F42-177A-4A50-B26D-3B3540773616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{B3A3EA1D-5E2F-4BFC-B1A9-71DF7F6EA988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3A3EA1D-5E2F-4BFC-B1A9-71DF7F6EA988}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3A3EA1D-5E2F-4BFC-B1A9-71DF7F6EA988}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{16E59F42-177A-4A50-B26D-3B3540773616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E59F42-177A-4A50-B26D-3B3540773616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E59F42-177A-4A50-B26D-3B3540773616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E59F42-177A-4A50-B26D-3B3540773616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

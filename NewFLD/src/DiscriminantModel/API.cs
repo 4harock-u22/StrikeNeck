@@ -1,0 +1,31 @@
+﻿using DiscriminantModel.ForwardLeanDetector;
+using DiscriminantModel.PostureEstimates;
+using SixLabors.ImageSharp.PixelFormats;
+using Image = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgb24>;
+
+
+namespace ForwardLeanDetection.DiscriminantModel
+{
+    public class API
+    {
+        public bool IsForwardLean(FileInfo fileInfo)
+        {
+            var _fldAPI = new ForwardLeanDetectionAPI();
+            var _peAPI = new PostureEstimatesAPI();
+
+            var image = Image.Load<Rgb24>(fileInfo.FullName);
+            var jointPositions = _peAPI.predict(image);
+            var result = _fldAPI.predict(jointPositions);
+
+            return result;
+        }
+
+        public async void retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
+        {
+
+            var trainer = new ForwardLeanDetectionTrainer();
+            trainer.retrain(currectPosture, forwardLeanPosture);
+            return;
+        }
+    }
+}
