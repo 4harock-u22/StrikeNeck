@@ -1,4 +1,6 @@
-﻿namespace u22_strikeneck
+﻿
+using System;
+namespace u22_strikeneck
 {
     public partial class MainPage : ContentPage
     {
