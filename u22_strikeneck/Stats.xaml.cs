@@ -3,7 +3,8 @@ using CommunityToolkit.Maui.Core;
 using LiveCharts.Wpf;
 using u22_strikeneck.ViewModels;
 
-using System;
+
+
 namespace u22_strikeneck
 
 {
@@ -89,6 +90,7 @@ namespace u22_strikeneck
             var picker = (Picker)sender;
             var selectedIndex = picker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
+            DataAccessor val = new DataAccessor();
             date = DateTime.Now;
             switch (selectedIndex)
             {
@@ -226,7 +228,7 @@ namespace u22_strikeneck
             var picker = (Picker)sender;
             var selectedIndex = picker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
-
+            DataAccessor val = new DataAccessor();
             switch (selectedIndex)
             {
                 case 0:
@@ -360,7 +362,7 @@ namespace u22_strikeneck
             var picker = (Picker)sender;
             var selectedIndex = picker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
-
+            DataAccessor val = new DataAccessor();
             switch (selectedIndex)
             {
                 case 0:

@@ -11,6 +11,9 @@ using System.Runtime.CompilerServices;
 using SkiaSharp.Views.Maui;
 using Microsoft.Maui.Graphics;
 
+using LiveChartsCore.SkiaSharpView.Painting;
+
+
 namespace u22_strikeneck.ViewModels
 {
     public class StatsViewModel : INotifyPropertyChanged

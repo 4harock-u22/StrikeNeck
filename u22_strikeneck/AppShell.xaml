@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
+        Title="統計"
         ContentTemplate="{DataTemplate local:Stats}"
         Route="Stats" />
 
