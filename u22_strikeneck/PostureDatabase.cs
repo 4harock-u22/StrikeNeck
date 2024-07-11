@@ -10,6 +10,7 @@ namespace u22_strikeneck
     public class PostureEvent
     {
         [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public string Timestamp { get; set; }
         public bool isBad { get; set; }
     }
@@ -18,8 +19,9 @@ namespace u22_strikeneck
     {
         private readonly SQLiteAsyncConnection _database;
 
-        public PostureDatabase(string dbPath)
+        public PostureDatabase()
         {
+            string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "posture_data.db");
             _database = new SQLiteAsyncConnection(dbPath);
             InitializeDatabase().Wait();
         }
