@@ -104,7 +104,7 @@ namespace NewFLD
 
         #endregion
 
-        public static string MLNetModelPath = "C:\\Users\\taket\\source\\repos\\PrivateStrikeNeck\\NewFLD\\MLModel1.zip";//Path.GetFullPath("MLModel1.zip");
+        public static string MLNetModelPath = Path.GetFullPath("MLModel1.zip");
 
         public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
 
