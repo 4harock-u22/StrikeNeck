@@ -8,24 +8,23 @@ namespace ForwardLeanDetection.DiscriminantModel
 {
     public class API
     {
-        public bool IsForwardLean(FileInfo fileInfo)
+        public bool Predict(FileInfo fileInfo)
         {
             var _fldAPI = new ForwardLeanDetectionAPI();
             var _peAPI = new PostureEstimatesAPI();
 
             var image = Image.Load<Rgb24>(fileInfo.FullName);
             var jointPositions = _peAPI.predict(image);
-            var result = _fldAPI.predict(jointPositions);
+            var result = _fldAPI.Predict(jointPositions);
 
             return result;
         }
 
-        public async void retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
+        public async void Retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
         {
 
-            var trainer = new ForwardLeanDetectionTrainer();
-            trainer.retrain(currectPosture, forwardLeanPosture);
-            return;
+            var _fldAPI = new ForwardLeanDetectionAPI();
+            _fldAPI.Retrain(currectPosture, forwardLeanPosture);
         }
     }
 }
