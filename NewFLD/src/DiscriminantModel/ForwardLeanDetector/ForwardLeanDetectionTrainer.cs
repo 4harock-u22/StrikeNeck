@@ -6,32 +6,6 @@ using Microsoft.ML;
 
 namespace DiscriminantModel.ForwardLeanDetector
 {
-
-    internal class ModelInput
-    {
-        public float N_LEar_X { get; set; }
-
-        public float N_LEar_Y { get; set; }
-
-        public float REar_REye_X { get; set; }
-
-        public float REar_REye_Y { get; set; }
-
-        public float LEye_LEar_X { get; set; }
-
-        public float LEye_LEar_Y { get; set; }
-
-        public float REye_N_X { get; set; }
-
-        public float REye_N_Y { get; set; }
-
-        public float N_LEye_X { get; set; }
-
-        public float N__Eye_Y { get; set; }
-
-        public string FLD { get; set; }
-
-    }
     class ForwardLeanDetectionTrainer
     {
 
@@ -40,27 +14,27 @@ namespace DiscriminantModel.ForwardLeanDetector
             var trainData = this.BuildTrainData(currectPosture, forwardLeanPosture);
             var modelPath = MLModel1.MLNetModelPath;
             var context = new MLContext();
-            var inputData = context.Data.LoadFromEnumerable<ModelInput>(trainData);
+            var inputData = context.Data.LoadFromEnumerable<MLModel1.ModelInput>(trainData);
             var newModel = MLModel1.RetrainPipeline(context, inputData);
             context.Model.Save(newModel, inputData.Schema, modelPath);
         }
 
-        IEnumerable<ModelInput> BuildTrainData(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
+        IEnumerable<MLModel1.ModelInput> BuildTrainData(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
         {
             var currentInputs = this.posturesEstimate(currectPosture, false);
 
             var forwardLeanInputs = this.posturesEstimate(forwardLeanPosture, true);
 
-            var modelInputsList = new List<ModelInput>();
+            var modelInputsList = new List<MLModel1.ModelInput>();
             modelInputsList.AddRange(currentInputs);
             modelInputsList.AddRange(forwardLeanInputs);
 
             return modelInputsList;
         }
 
-         List<ModelInput> posturesEstimate(DirectoryInfo posture, bool result)
+         List<MLModel1.ModelInput> posturesEstimate(DirectoryInfo posture, bool result)
          {
-            var inputs = new List<ModelInput>();
+            var inputs = new List<MLModel1.ModelInput>();
             foreach (var sample in posture.GetFiles())
             {
                 var input = this.postureEstimate(sample, result);
@@ -70,7 +44,7 @@ namespace DiscriminantModel.ForwardLeanDetector
             return inputs;
         }
 
-        ModelInput postureEstimate(FileInfo sample, bool res)
+        MLModel1.ModelInput postureEstimate(FileInfo sample, bool res)
         {
             var postureEstimator = new PostureEstimatesAPI();
             var sampleImage = Image.Load<Rgb24>(sample.FullName);
@@ -89,7 +63,7 @@ namespace DiscriminantModel.ForwardLeanDetector
             float N_LEar_Y = result[KeyPointType.Nose].y - result[KeyPointType.LeftEar].y;
             bool fld = res;
 
-            var input = new ModelInput()
+            var input = new MLModel1.ModelInput()
             {
                 N_LEar_X = N_LEar_X,
                 N_LEar_Y = N_LEar_Y,
