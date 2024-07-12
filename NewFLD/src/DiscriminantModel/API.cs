@@ -8,7 +8,7 @@ namespace ForwardLeanDetection.DiscriminantModel
 {
     public class API
     {
-        public bool IsForwardLean(FileInfo fileInfo)
+        public bool Predict(FileInfo fileInfo)
         {
             var _fldAPI = new ForwardLeanDetectionAPI();
             var _peAPI = new PostureEstimatesAPI();
