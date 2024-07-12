@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using SQLite;
 
 namespace u22_strikeneck
 {
-    public class PostureEvent
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-        public string Timestamp { get; set; }
-        public bool isBad { get; set; }
-    }
-
-    public class PostureDatabase
+    public class DatabaseReader
     {
         private readonly SQLiteAsyncConnection _database;
 
-        public PostureDatabase()
+        public DatabaseReader()
         {
             string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "posture_data.db");
             _database = new SQLiteAsyncConnection(dbPath);
@@ -31,13 +22,11 @@ namespace u22_strikeneck
             await _database.CreateTableAsync<PostureEvent>();
         }
 
-        public async Task SavePostureEventAsync()
+        public async Task<PostureEvent> GetPostureEventByTimestampAsync(DateTime timestamp)
         {
-            var postureEvent = new PostureEvent
-            {
-                Timestamp = DateTime.Now.ToString("o")
-            };
-            await _database.InsertAsync(postureEvent);
+            return await _database.Table<PostureEvent>()
+                                  .Where(x => x.Timestamp == timestamp)
+                                  .FirstOrDefaultAsync();
         }
     }
 }
