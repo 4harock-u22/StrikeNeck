@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             x:Class="u22_strikeneck.Init.Init1"
+             Title="Init1">
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill">
+
+            <!-- CameraViewを左側に配置 -->
+            <Grid>
+                <cv:CameraView x:Name="cameraView"
+                           WidthRequest="300"
+                           HeightRequest="200"
+                           CamerasLoaded="cameraView_CamerasLoaded"
+                           HorizontalOptions="Start" 
+                           Margin="0,30,10,0"/>
+                <Label Text="正しい姿勢のサンプルを撮影します。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,30,0,0" />
+                <Label Text="背筋を伸ばした姿勢で撮影ボタンを" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,60,2,0" />
+                <Label Text="押してください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,183,0" />
+                <!-- ボタンを短くして右側に配置 -->
+                <Button x:Name="start" 
+                    Text="撮影を開始" 
+                    Clicked="TakePhoto"
+                    WidthRequest="100" 
+                    HeightRequest="30"
+                    HorizontalOptions="End"
+                    Margin="0,170,20,0"/>
+                <!-- 右側に配置 -->
+            </Grid>
+            <Grid>
+                <Image x:Name="myImage" WidthRequest="300" HeightRequest="200" HorizontalOptions="Start" Margin="0,30,10,0"/>
+                <Label Text="正しい姿勢のサンプルが左に表示" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,30,9,0" />
+                <Label Text="されたら次へを押してください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,60,40,0" />
+                <Label Text="＊画像は約10秒で更新されます。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,0,0" />
+                <Button Text="次へ"
+                    WidthRequest="100" 
+                    HeightRequest="30"
+                    HorizontalOptions="End"
+                    Margin="0,190,20,20"
+                    Clicked="OnClicked" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

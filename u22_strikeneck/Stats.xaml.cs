@@ -2,7 +2,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using LiveCharts.Wpf;
 using u22_strikeneck.ViewModels;
-
+using System;
 
 
 namespace u22_strikeneck
@@ -90,7 +90,6 @@ namespace u22_strikeneck
             var picker = (Picker)sender;
             var selectedIndex = picker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
-            DataAccessor val = new DataAccessor();
             date = DateTime.Now;
             switch (selectedIndex)
             {
@@ -98,7 +97,7 @@ namespace u22_strikeneck
                     var analyticsPerDay = DataAccessor.GetAnalyticsPerDay(date);
                     float[] dayActivateTimes = new float[24];
                     float[] dayForwardLeanTimes = new float[24];
-                    for (int i = 0; i < 24; i++)
+                    for(int i = 0; i < 24; i++)
                     {
                         dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
                         dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
@@ -136,7 +135,7 @@ namespace u22_strikeneck
                     myLabel.Text = "(•ª)";
                     break;
                 case 1:
-
+                    
                     var analyticsPerWeek = DataAccessor.GetAnalyticsPerWeek(date);
                     int sun = (int)DayOfWeek.SUN;
                     int mon = (int)DayOfWeek.MON;
@@ -228,7 +227,7 @@ namespace u22_strikeneck
             var picker = (Picker)sender;
             var selectedIndex = picker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
-            DataAccessor val = new DataAccessor();
+            
             switch (selectedIndex)
             {
                 case 0:
@@ -362,7 +361,7 @@ namespace u22_strikeneck
             var picker = (Picker)sender;
             var selectedIndex = picker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
-            DataAccessor val = new DataAccessor();
+
             switch (selectedIndex)
             {
                 case 0:

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             x:Class="u22_strikeneck.Init.Init3"
+             Title="Init3">
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Start">
+            <!-- VerticalOptionsをStartに設定 -->
+
+            <Grid>
+                <cv:CameraView x:Name="cameraView"
+                               WidthRequest="300"
+                               HeightRequest="200"
+                               CamerasLoaded="cameraView_CamerasLoaded"
+                                HorizontalOptions="Start" 
+                               Margin="0,40,20,0"
+                                />
+                <Image x:Name="myImage" WidthRequest="0" HeightRequest="0" />
+
+                <Button
+                        Text="終了"
+                        HorizontalOptions="End"
+                        Clicked="ToStats" 
+                        WidthRequest="100" 
+                        HeightRequest="30"
+                        Margin="0,-90,20,0"/>
+                <Button
+                        Text="やり直す"
+                        HorizontalOptions="End"
+                        Clicked="ToInit1"   
+                        WidthRequest="100" 
+                        HeightRequest="30"
+                        Margin="0,30,20,0"/>
+                <Button
+                        Text="もどる"
+                        HorizontalOptions="End"
+                        Clicked="ToInit2"
+                        WidthRequest="100" 
+                        HeightRequest="30"
+                        Margin="0,150,20,0"/>
+            </Grid>
+            <Label Text="今は良い姿勢です。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="0,0,29,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

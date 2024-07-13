@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
-
+using Camera.MAUI;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace u22_strikeneck
@@ -14,7 +14,7 @@ namespace u22_strikeneck
             builder
                 .UseSkiaSharp(true)
                 .UseMauiApp<App>()
-                
+                .UseMauiCameraView()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
