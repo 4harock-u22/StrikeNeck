@@ -31,8 +31,17 @@ namespace u22_strikeneck
 
         public async Task UpdateOrInsertPostureEventAsync(DateTime timestamp, bool isDistortionDetected)
         {
+            // 年, 月, 日, 時間 のみをのこし不要な 分, 秒 は削除
+            DateTime trimmedTimestamp = new DateTime(
+                timestamp.Year,
+                timestamp.Month,
+                timestamp.Day,
+                timestamp.Hour,
+                0,
+                0
+            );
             var existingEvent = await _database.Table<PostureEvent>()
-                                               .Where(x => x.Timestamp == timestamp)
+                                               .Where(x => x.Timestamp == trimmedTimestamp)
                                                .FirstOrDefaultAsync();
             if (existingEvent != null)
             {
@@ -47,7 +56,7 @@ namespace u22_strikeneck
             {
                 var newPostureEvent = new PostureEvent
                 {
-                    Timestamp = timestamp,
+                    Timestamp = trimmedTimestamp,
                     Check = 1,
                     Detection = isDistortionDetected ? 1 : 0
                 };
