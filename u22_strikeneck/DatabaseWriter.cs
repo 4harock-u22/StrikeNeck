@@ -7,7 +7,7 @@ namespace u22_strikeneck
 {
     public class PostureEvent
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public DateTime Timestamp { get; set; }
         public int Check { get; set; }
         public int Detection { get; set; }
