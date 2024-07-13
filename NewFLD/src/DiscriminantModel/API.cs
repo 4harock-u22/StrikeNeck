@@ -8,14 +8,14 @@ namespace ForwardLeanDetection.DiscriminantModel
 {
     public class API
     {
-        public bool Predict(FileInfo fileInfo)
+        public bool Predict(FileInfo fileInfo, double bias)
         {
-            var _fldAPI = new ForwardLeanDetectionAPI();
             var _peAPI = new PostureEstimatesAPI();
+            var _fldAPI = new ForwardLeanDetectionAPI();
 
             var image = Image.Load<Rgb24>(fileInfo.FullName);
             var jointPositions = _peAPI.predict(image);
-            var result = _fldAPI.Predict(jointPositions);
+            var result = _fldAPI.Predict(jointPositions, bias);
 
             return result;
         }
