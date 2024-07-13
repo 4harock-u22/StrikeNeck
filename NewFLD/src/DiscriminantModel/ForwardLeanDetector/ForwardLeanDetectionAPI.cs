@@ -6,13 +6,13 @@ namespace DiscriminantModel.ForwardLeanDetector
 {
     class ForwardLeanDetectionAPI
     {
-        public bool Predict(Dictionary<KeyPointType, TwoDPoint> jointPositions)
+        public bool Predict(Dictionary<KeyPointType, TwoDPoint> jointPositions, double bias)
         {
             var preprocessor = new ForwardLeanDetectionPretreatment();
             var postProcessor = new ForwardLeanDetectionPostProcessor();
             var input = preprocessor.buildModelInput(jointPositions);
             var output = MLModel1.Predict(input);
-            var result = postProcessor.isInForwardLean(output);
+            var result = postProcessor.isInForwardLean(output, bias);
 
             return result;
         }

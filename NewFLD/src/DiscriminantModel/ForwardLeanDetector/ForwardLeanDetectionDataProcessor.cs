@@ -71,10 +71,9 @@ namespace DiscriminantModel.ForwardLeanDetector
 
     internal class ForwardLeanDetectionPostProcessor
     {
-        internal bool isInForwardLean(MLModel1.ModelOutput modelOutput)
+        internal bool isInForwardLean(MLModel1.ModelOutput modelOutput, double bias)
         {
             var resoruce = new ForwardLeanDetectionResource();
-            var bias = resoruce.fldBias;
 
             var result = modelOutput.Score[0] + bias;
 
