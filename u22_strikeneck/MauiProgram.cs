@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SQLite;
 
 namespace u22_strikeneck
 {
@@ -15,8 +16,10 @@ namespace u22_strikeneck
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            SQLitePCL.Batteries_V2.Init();
+
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
