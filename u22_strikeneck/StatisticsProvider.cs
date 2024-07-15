@@ -18,19 +18,42 @@ namespace u22_strikeneck
     {
         public static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
         {
+            // 年, 月, 日 のみをのこす
+            DateTime trimmedDate = new DateTime(
+                date.Year,
+                date.Month,
+                date.Day,
+                0,
+                0,
+                0
+            );
             DatabaseReader reader = new DatabaseReader();
-            var eventPosture = await reader.GetPostureEventByTimestampAsync(date);
-            float activeTime = eventPosture.Check * 60;
-            float forwardLeanTime = eventPosture.Detection * 60;
-            return new List<AnalyticsData>
+            var datasOfDay = await reader.GetPostureEventByTimestampAsync(trimmedDate);
+            List<AnalyticsData> analyticsDataList = new List<AnalyticsData>(24);
+            for ( int i = 0; i < 24;  i++ )
             {
-                new AnalyticsData
+                if (datasOfDay[i].Timestamp.Hour == i)
                 {
-                    ActiveTime = activeTime,
-                    ForwardLeanTime = forwardLeanTime,
-                    Date = date,
+                    analyticsDataList[i] = new AnalyticsData
+                    {
+                        ActiveTime = datasOfDay[i].Check * 1,
+                        ForwardLeanTime = datasOfDay[i].Detection * 1,
+                        Date = new DateTime(
+                            trimmedDate.Year,
+                            trimmedDate.Month,
+                            trimmedDate.Day,
+                            i,
+                            0,
+                            0
+                        )
+                    };
                 }
-            };
+                else
+                {
+                    analyticsDataList[i] = null;
+                }
+            }
+            return analyticsDataList;
         }
 
         public static async Task<List<AnalyticsData>> GetAnalyticsPerWeekAsync(DateTime date)
