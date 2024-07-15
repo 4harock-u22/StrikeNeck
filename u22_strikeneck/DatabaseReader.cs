@@ -22,7 +22,7 @@ namespace u22_strikeneck
             await _database.CreateTableAsync<PostureEvent>();
         }
 
-        public async Task<PostureEvent> GetPostureEventByTimestampAsync(DateTime timestamp)
+        public async Task<List<PostureEvent>> GetPostureEventByTimestampAsync(DateTime timestamp)
         {
             // 年, 月, 日, 時間 のみをのこし不要な 分, 秒 は削除
             DateTime trimmedTimestamp = new DateTime(
@@ -35,7 +35,7 @@ namespace u22_strikeneck
             );
             return await _database.Table<PostureEvent>()
                                   .Where(x => x.Timestamp == trimmedTimestamp)
-                                  .FirstOrDefaultAsync();
+                                  .ToListAsync();
         }
     }
 }
