@@ -94,13 +94,15 @@ namespace u22_strikeneck
             switch (selectedIndex)
             {
                 case 0:
-                    var analyticsPerDay = DataAccessor.GetAnalyticsPerDay(date);
+                    //var analyticsPerDay = StatisticsProvider.GetAnalyticsPerDay(date);
                     float[] dayActivateTimes = new float[24];
                     float[] dayForwardLeanTimes = new float[24];
                     for(int i = 0; i < 24; i++)
                     {
-                        dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
-                        dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
+                        //dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
+                        dayActivateTimes[i] = i;
+                        //dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
+                        dayForwardLeanTimes[i] = i;
                     }
 
                     StatsViewModel.SetStartUpTime(dayActivateTimes);
@@ -136,7 +138,7 @@ namespace u22_strikeneck
                     break;
                 case 1:
                     
-                    var analyticsPerWeek = DataAccessor.GetAnalyticsPerWeek(date);
+                    //var analyticsPerWeek = StatisticsProvider.GetAnalyticsPerWeek(date);
                     int sun = (int)DayOfWeek.SUN;
                     int mon = (int)DayOfWeek.MON;
                     int tue = (int)DayOfWeek.TUE;
@@ -145,22 +147,39 @@ namespace u22_strikeneck
                     int fri = (int)DayOfWeek.FRI;
                     int sat = (int)DayOfWeek.SAT;
 
-                    float ActivateSun = analyticsPerWeek[sun].ActiveTime;
-                    float ActivateMon = analyticsPerWeek[mon].ActiveTime;
-                    float ActivateTue = analyticsPerWeek[tue].ActiveTime;
+                    //float ActivateSun = analyticsPerWeek[sun].ActiveTime;
+                    //float ActivateMon = analyticsPerWeek[mon].ActiveTime;
+                    //float ActivateTue = analyticsPerWeek[tue].ActiveTime;
+                    //float ActivateWed = analyticsPerWeek[wed].ActiveTime;
+                    //float ActivateThu = analyticsPerWeek[thu].ActiveTime;
+                    //float ActivateFri = analyticsPerWeek[fri].ActiveTime;
+                    //float ActivateSat = analyticsPerWeek[sat].ActiveTime;
 
-                    float ActivateWed = analyticsPerWeek[wed].ActiveTime;
-                    float ActivateThu = analyticsPerWeek[thu].ActiveTime;
-                    float ActivateFri = analyticsPerWeek[fri].ActiveTime;
-                    float ActivateSat = analyticsPerWeek[sat].ActiveTime;
+                    //float fowardLeanSun = analyticsPerWeek[sun].ForwardLeanTime;
+                    //float fowardLeanMon = analyticsPerWeek[mon].ForwardLeanTime;
+                    //float fowardLeanTue = analyticsPerWeek[tue].ForwardLeanTime;
+                    //float fowardLeanWed = analyticsPerWeek[wed].ForwardLeanTime;
+                    //float fowardLeanThu = analyticsPerWeek[fri].ForwardLeanTime;
+                    //float fowardLeanFri = analyticsPerWeek[sat].ForwardLeanTime;
+                    //float fowardLeanSat = analyticsPerWeek[sun].ForwardLeanTime;
 
-                    float fowardLeanSun = analyticsPerWeek[sun].ForwardLeanTime;
-                    float fowardLeanMon = analyticsPerWeek[mon].ForwardLeanTime;
-                    float fowardLeanTue = analyticsPerWeek[tue].ForwardLeanTime;
-                    float fowardLeanWed = analyticsPerWeek[wed].ForwardLeanTime;
-                    float fowardLeanThu = analyticsPerWeek[fri].ForwardLeanTime;
-                    float fowardLeanFri = analyticsPerWeek[sat].ForwardLeanTime;
-                    float fowardLeanSat = analyticsPerWeek[sun].ForwardLeanTime;
+                    float ActivateSun = 1;
+                    float ActivateMon = 2;
+                    float ActivateTue = 8;
+                    float ActivateWed = 34;
+                    float ActivateThu = 3;
+                    float ActivateFri = 12;
+                    float ActivateSat = 33;
+
+                    float fowardLeanSun = 43;
+                    float fowardLeanMon = 3;
+                    float fowardLeanTue = 44;
+                    float fowardLeanWed = 54;
+                    float fowardLeanThu = 56;
+                    float fowardLeanFri = 12;
+                    float fowardLeanSat = 23;
+
+
 
                     StatsViewModel.SetStartUpTime(new float[] {
                         ActivateSun,
@@ -181,27 +200,30 @@ namespace u22_strikeneck
                         fowardLeanSat,
                     });
                     StatsViewModel.SetAxisLabels(new string[] {
-                        $"{analyticsPerWeek[sun].Date.Month}/{analyticsPerWeek[sun].Date.Day}",
-                        $"{analyticsPerWeek[mon].Date.Month}/{analyticsPerWeek[mon].Date.Day}",
-                        $"{analyticsPerWeek[tue].Date.Month}/{analyticsPerWeek[tue].Date.Day}",
-                        $"{analyticsPerWeek[wed].Date.Month}/{analyticsPerWeek[wed].Date.Day}",
-                        $"{analyticsPerWeek[thu].Date.Month}/{analyticsPerWeek[thu].Date.Day}",
-                        $"{analyticsPerWeek[fri].Date.Month}/{analyticsPerWeek[fri].Date.Day}",
-                        $"{analyticsPerWeek[sat].Date.Month}/{analyticsPerWeek[sat].Date.Day}",
+                       // $"{analyticsPerWeek[sun].Date.Month}/{analyticsPerWeek[sun].Date.Day}",
+                       // $"{analyticsPerWeek[mon].Date.Month}/{analyticsPerWeek[mon].Date.Day}",
+                        //$"{analyticsPerWeek[tue].Date.Month}/{analyticsPerWeek[tue].Date.Day}",
+                        //$"{analyticsPerWeek[wed].Date.Month}/{analyticsPerWeek[wed].Date.Day}",
+                        //$"{analyticsPerWeek[thu].Date.Month}/{analyticsPerWeek[thu].Date.Day}",
+                        //$"{analyticsPerWeek[fri].Date.Month}/{analyticsPerWeek[fri].Date.Day}",
+                        //$"{analyticsPerWeek[sat].Date.Month}/{analyticsPerWeek[sat].Date.Day}",
 
                     });
                     myLabel.Text = "(ŽžŠÔ)";
                     break;
                 case 2:
-                    var analyticsPerMonth = DataAccessor.GetAnalyticsPerMonth(date);
-                    int weekCount = analyticsPerMonth.Count;
+                    //var analyticsPerMonth = StatisticsProvider.GetAnalyticsPerMonth(date);
+                    //int weekCount = analyticsPerMonth.Count;
+                    int weekCount = 5;
                     float[] monthActivateTimes = new float[weekCount];
                     float[] monthForwardLeanTimes = new float[weekCount];
                     string[] monthAxis = new string[weekCount];
                     for (int i = 0; i < weekCount; i++)
                     {
-                        monthActivateTimes[i] = analyticsPerMonth[i].ActiveTime;
-                        monthForwardLeanTimes[i] = analyticsPerMonth[i].ForwardLeanTime;
+                        //monthActivateTimes[i] = analyticsPerMonth[i].ActiveTime;
+                        monthActivateTimes[i] = i * 4;
+                        //monthForwardLeanTimes[i] = analyticsPerMonth[i].ForwardLeanTime;
+                        monthForwardLeanTimes[i] = i * 5 + 3;
                         monthAxis[i] = $"{date.Month}ŒŽ‘æ{i}T";
                     }
 
@@ -232,13 +254,15 @@ namespace u22_strikeneck
             {
                 case 0:
                     date = date.AddDays(-1);
-                    var analyticsPerDay = DataAccessor.GetAnalyticsPerDay(date);
+                    //var analyticsPerDay = StatisticsProvider.GetAnalyticsPerDay(date);
                     float[] dayActivateTimes = new float[24];
                     float[] dayForwardLeanTimes = new float[24];
                     for (int i = 0; i < 24; i++)
                     {
-                        dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
-                        dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
+                        //dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
+                        dayActivateTimes[i] = i * 4;
+                        //dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
+                        dayForwardLeanTimes[i] = i * 6;
                     }
 
                     StatsViewModel.SetStartUpTime(dayActivateTimes);
@@ -274,7 +298,7 @@ namespace u22_strikeneck
                     break;
                 case 1:
                     date = date.AddDays(-7);
-                    var analyticsPerWeek = DataAccessor.GetAnalyticsPerWeek(date);
+                    //var analyticsPerWeek = StatisticsProvider.GetAnalyticsPerWeek(date);
                     int sun = (int)DayOfWeek.SUN;
                     int mon = (int)DayOfWeek.MON;
                     int tue = (int)DayOfWeek.TUE;
@@ -283,22 +307,40 @@ namespace u22_strikeneck
                     int fri = (int)DayOfWeek.FRI;
                     int sat = (int)DayOfWeek.SAT;
 
-                    float ActivateSun = analyticsPerWeek[sun].ActiveTime;
-                    float ActivateMon = analyticsPerWeek[mon].ActiveTime;
-                    float ActivateTue = analyticsPerWeek[tue].ActiveTime;
+                    //float ActivateSun = analyticsPerWeek[sun].ActiveTime;
+                    //float ActivateMon = analyticsPerWeek[mon].ActiveTime;
+                    //float ActivateTue = analyticsPerWeek[tue].ActiveTime;
 
-                    float ActivateWed = analyticsPerWeek[wed].ActiveTime;
-                    float ActivateThu = analyticsPerWeek[thu].ActiveTime;
-                    float ActivateFri = analyticsPerWeek[fri].ActiveTime;
-                    float ActivateSat = analyticsPerWeek[sat].ActiveTime;
+                    //float ActivateWed = analyticsPerWeek[wed].ActiveTime;
+                    //float ActivateThu = analyticsPerWeek[thu].ActiveTime;
+                    //float ActivateFri = analyticsPerWeek[fri].ActiveTime;
+                    //float ActivateSat = analyticsPerWeek[sat].ActiveTime;
 
-                    float fowardLeanSun = analyticsPerWeek[sun].ForwardLeanTime;
-                    float fowardLeanMon = analyticsPerWeek[mon].ForwardLeanTime;
-                    float fowardLeanTue = analyticsPerWeek[tue].ForwardLeanTime;
-                    float fowardLeanWed = analyticsPerWeek[wed].ForwardLeanTime;
-                    float fowardLeanThu = analyticsPerWeek[fri].ForwardLeanTime;
-                    float fowardLeanFri = analyticsPerWeek[sat].ForwardLeanTime;
-                    float fowardLeanSat = analyticsPerWeek[sun].ForwardLeanTime;
+                    //float fowardLeanSun = analyticsPerWeek[sun].ForwardLeanTime;
+                    //float fowardLeanMon = analyticsPerWeek[mon].ForwardLeanTime;
+                    //float fowardLeanTue = analyticsPerWeek[tue].ForwardLeanTime;
+                    //float fowardLeanWed = analyticsPerWeek[wed].ForwardLeanTime;
+                    //float fowardLeanThu = analyticsPerWeek[fri].ForwardLeanTime;
+                    //float fowardLeanFri = analyticsPerWeek[sat].ForwardLeanTime;
+                    //float fowardLeanSat = analyticsPerWeek[sun].ForwardLeanTime;
+
+
+                    float ActivateSun = 4;
+                    float ActivateMon = 23;
+                    float ActivateTue = 15;
+
+                    float ActivateWed = 46;
+                    float ActivateThu = 73;
+                    float ActivateFri = 11;
+                    float ActivateSat = 23;
+
+                    float fowardLeanSun = 44;
+                    float fowardLeanMon = 55;
+                    float fowardLeanTue = 62;
+                    float fowardLeanWed = 13;
+                    float fowardLeanThu = 13;
+                    float fowardLeanFri = 42;
+                    float fowardLeanSat = 6;
 
                     StatsViewModel.SetStartUpTime(new float[] {
                         ActivateSun,
@@ -319,28 +361,31 @@ namespace u22_strikeneck
                         fowardLeanSat,
                     });
                     StatsViewModel.SetAxisLabels(new string[] {
-                        $"{analyticsPerWeek[sun].Date.Month}/{analyticsPerWeek[sun].Date.Day}",
-                        $"{analyticsPerWeek[mon].Date.Month}/{analyticsPerWeek[mon].Date.Day}",
-                        $"{analyticsPerWeek[tue].Date.Month}/{analyticsPerWeek[tue].Date.Day}",
-                        $"{analyticsPerWeek[wed].Date.Month}/{analyticsPerWeek[wed].Date.Day}",
-                        $"{analyticsPerWeek[thu].Date.Month}/{analyticsPerWeek[thu].Date.Day}",
-                        $"{analyticsPerWeek[fri].Date.Month}/{analyticsPerWeek[fri].Date.Day}",
-                        $"{analyticsPerWeek[sat].Date.Month}/{analyticsPerWeek[sat].Date.Day}",
+                       // $"{analyticsPerWeek[sun].Date.Month}/{analyticsPerWeek[sun].Date.Day}",
+                       // $"{analyticsPerWeek[mon].Date.Month}/{analyticsPerWeek[mon].Date.Day}",
+                        //$"{analyticsPerWeek[tue].Date.Month}/{analyticsPerWeek[tue].Date.Day}",
+                        //$"{analyticsPerWeek[wed].Date.Month}/{analyticsPerWeek[wed].Date.Day}",
+                       // $"{analyticsPerWeek[thu].Date.Month}/{analyticsPerWeek[thu].Date.Day}",
+                       // $"{analyticsPerWeek[fri].Date.Month}/{analyticsPerWeek[fri].Date.Day}",
+                       // $"{analyticsPerWeek[sat].Date.Month}/{analyticsPerWeek[sat].Date.Day}",
 
                     });
                     myLabel.Text = "(ŽžŠÔ)";
                     break;
                 case 2:
                     date = date.AddMonths(-1);
-                    var analyticsPerMonth = DataAccessor.GetAnalyticsPerMonth(date);
-                    int weekCount = analyticsPerMonth.Count;
+                    //var analyticsPerMonth = StatisticsProvider.GetAnalyticsPerMonth(date);
+                    //int weekCount = analyticsPerMonth.Count;
+                    int weekCount = 5;
                     float[] monthActivateTimes = new float[weekCount];
                     float[] monthForwardLeanTimes = new float[weekCount];
                     string[] monthAxis = new string[weekCount];
                     for (int i = 0; i < weekCount; i++)
                     {
-                        monthActivateTimes[i] = analyticsPerMonth[i].ActiveTime;
-                        monthForwardLeanTimes[i] = analyticsPerMonth[i].ForwardLeanTime;
+                        //monthActivateTimes[i] = analyticsPerMonth[i].ActiveTime;
+                        monthActivateTimes[i] = i * 4 + 3;
+                        //monthForwardLeanTimes[i] = analyticsPerMonth[i].ForwardLeanTime;
+                        monthForwardLeanTimes[i] = i * 5 + 2;
                         monthAxis[i] = $"{date.Month}ŒŽ‘æ{i}T";
                     }
 
@@ -366,13 +411,15 @@ namespace u22_strikeneck
             {
                 case 0:
                     date = date.AddDays(1);
-                    var analyticsPerDay = DataAccessor.GetAnalyticsPerDay(date);
+                    //var analyticsPerDay = StatisticsProvider.GetAnalyticsPerDay(date);
                     float[] dayActivateTimes = new float[24];
                     float[] dayForwardLeanTimes = new float[24];
                     for (int i = 0; i < 24; i++)
                     {
-                        dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
-                        dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
+                        //dayActivateTimes[i] = analyticsPerDay[i].ActiveTime;
+                        dayActivateTimes[i] = i * 4 + 2;
+                        //dayForwardLeanTimes[i] = analyticsPerDay[i].ForwardLeanTime;
+                        dayForwardLeanTimes[i] = i * 2 + 12;
                     }
 
                     StatsViewModel.SetStartUpTime(dayActivateTimes);
@@ -398,7 +445,7 @@ namespace u22_strikeneck
                         "16Žž",
                         "17Žž",
                         "18Žž",
-                        "19",
+                        "19Žž",
                         "20Žž",
                         "21Žž",
                         "22Žž",
@@ -408,7 +455,7 @@ namespace u22_strikeneck
                     break;
                 case 1:
                     date = date.AddDays(7);
-                    var analyticsPerWeek = DataAccessor.GetAnalyticsPerWeek(date);
+                    //var analyticsPerWeek = StatisticsProvider.GetAnalyticsPerWeek(date);
                     int sun = (int)DayOfWeek.SUN;
                     int mon = (int)DayOfWeek.MON;
                     int tue = (int)DayOfWeek.TUE;
@@ -417,22 +464,42 @@ namespace u22_strikeneck
                     int fri = (int)DayOfWeek.FRI;
                     int sat = (int)DayOfWeek.SAT;
 
-                    float ActivateSun = analyticsPerWeek[sun].ActiveTime;
-                    float ActivateMon = analyticsPerWeek[mon].ActiveTime;
-                    float ActivateTue = analyticsPerWeek[tue].ActiveTime;
+                    
 
-                    float ActivateWed = analyticsPerWeek[wed].ActiveTime;
-                    float ActivateThu = analyticsPerWeek[thu].ActiveTime;
-                    float ActivateFri = analyticsPerWeek[fri].ActiveTime;
-                    float ActivateSat = analyticsPerWeek[sat].ActiveTime;
+                    //float ActivateSun = analyticsPerWeek[sun].ActiveTime;
+                    //float ActivateMon = analyticsPerWeek[mon].ActiveTime;
+                    //float ActivateTue = analyticsPerWeek[tue].ActiveTime;
 
-                    float fowardLeanSun = analyticsPerWeek[sun].ForwardLeanTime;
-                    float fowardLeanMon = analyticsPerWeek[mon].ForwardLeanTime;
-                    float fowardLeanTue = analyticsPerWeek[tue].ForwardLeanTime;
-                    float fowardLeanWed = analyticsPerWeek[wed].ForwardLeanTime;
-                    float fowardLeanThu = analyticsPerWeek[fri].ForwardLeanTime;
-                    float fowardLeanFri = analyticsPerWeek[sat].ForwardLeanTime;
-                    float fowardLeanSat = analyticsPerWeek[sun].ForwardLeanTime;
+                    //float ActivateWed = analyticsPerWeek[wed].ActiveTime;
+                    //float ActivateThu = analyticsPerWeek[thu].ActiveTime;
+                    //float ActivateFri = analyticsPerWeek[fri].ActiveTime;
+                    //float ActivateSat = analyticsPerWeek[sat].ActiveTime;
+
+                    //float fowardLeanSun = analyticsPerWeek[sun].ForwardLeanTime;
+                    //float fowardLeanMon = analyticsPerWeek[mon].ForwardLeanTime;
+                    //float fowardLeanTue = analyticsPerWeek[tue].ForwardLeanTime;
+                    //float fowardLeanWed = analyticsPerWeek[wed].ForwardLeanTime;
+                    //float fowardLeanThu = analyticsPerWeek[fri].ForwardLeanTime;
+                    //float fowardLeanFri = analyticsPerWeek[sat].ForwardLeanTime;
+                    //float fowardLeanSat = analyticsPerWeek[sun].ForwardLeanTime;
+
+
+                    float ActivateSun = 4;
+                    float ActivateMon = 23;
+                    float ActivateTue = 15;
+
+                    float ActivateWed = 46;
+                    float ActivateThu = 73;
+                    float ActivateFri = 11;
+                    float ActivateSat = 23;
+
+                    float fowardLeanSun = 44;
+                    float fowardLeanMon = 55;
+                    float fowardLeanTue = 62;
+                    float fowardLeanWed = 13;
+                    float fowardLeanThu = 13;
+                    float fowardLeanFri = 42;
+                    float fowardLeanSat = 6;
 
                     StatsViewModel.SetStartUpTime(new float[] {
                         ActivateSun,
@@ -453,28 +520,31 @@ namespace u22_strikeneck
                         fowardLeanSat,
                     });
                     StatsViewModel.SetAxisLabels(new string[] {
-                        $"{analyticsPerWeek[sun].Date.Month}/{analyticsPerWeek[sun].Date.Day}",
-                        $"{analyticsPerWeek[mon].Date.Month}/{analyticsPerWeek[mon].Date.Day}",
-                        $"{analyticsPerWeek[tue].Date.Month}/{analyticsPerWeek[tue].Date.Day}",
-                        $"{analyticsPerWeek[wed].Date.Month}/{analyticsPerWeek[wed].Date.Day}",
-                        $"{analyticsPerWeek[thu].Date.Month}/{analyticsPerWeek[thu].Date.Day}",
-                        $"{analyticsPerWeek[fri].Date.Month}/{analyticsPerWeek[fri].Date.Day}",
-                        $"{analyticsPerWeek[sat].Date.Month}/{analyticsPerWeek[sat].Date.Day}",
+                        //$"{analyticsPerWeek[sun].Date.Month}/{analyticsPerWeek[sun].Date.Day}",
+                       // $"{analyticsPerWeek[mon].Date.Month}/{analyticsPerWeek[mon].Date.Day}",
+                       // $"{analyticsPerWeek[tue].Date.Month}/{analyticsPerWeek[tue].Date.Day}",
+                       // $"{analyticsPerWeek[wed].Date.Month}/{analyticsPerWeek[wed].Date.Day}",
+                       // $"{analyticsPerWeek[thu].Date.Month}/{analyticsPerWeek[thu].Date.Day}",
+                        //$"{analyticsPerWeek[fri].Date.Month}/{analyticsPerWeek[fri].Date.Day}",
+                        //$"{analyticsPerWeek[sat].Date.Month}/{analyticsPerWeek[sat].Date.Day}",
 
                     });
                     myLabel.Text = "(ŽžŠÔ)";
                     break;
                 case 2:
                     date = date.AddMonths(1);
-                    var analyticsPerMonth = DataAccessor.GetAnalyticsPerMonth(date);
-                    int weekCount = analyticsPerMonth.Count;
+                    //var analyticsPerMonth = StatisticsProvider.GetAnalyticsPerMonth(date);
+                    //int weekCount = analyticsPerMonth.Count;
+                    int weekCount = 4;
                     float[] monthActivateTimes = new float[weekCount];
                     float[] monthForwardLeanTimes = new float[weekCount];
                     string[] monthAxis = new string[weekCount];
                     for (int i = 0; i < weekCount; i++)
                     {
-                        monthActivateTimes[i] = analyticsPerMonth[i].ActiveTime;
-                        monthForwardLeanTimes[i] = analyticsPerMonth[i].ForwardLeanTime;
+                        //monthActivateTimes[i] = analyticsPerMonth[i].ActiveTime;
+                        monthActivateTimes[i] = i * 6;
+                        //monthForwardLeanTimes[i] = analyticsPerMonth[i].ForwardLeanTime;
+                        monthForwardLeanTimes[i] = i * 9;
                         monthAxis[i] = $"{date.Month}ŒŽ‘æ{i}T";
                     }
 
