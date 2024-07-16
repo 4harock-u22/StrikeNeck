@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using SQLite;
 
 namespace u22_strikeneck
 {
-    public enum GroupKey
-    {
-        Day,
-        Week
-    }
-
     public class DatabaseReader
     {
         private readonly SQLiteAsyncConnection _database;
@@ -29,31 +24,25 @@ namespace u22_strikeneck
             await _database.CreateTableAsync<PostureEvent>();
         }
 
-        public async Task<List<PostureEvent>> GetPostureEventByTimestampAsync(DateTime timestamp)
+        public async Task<List<PostureEvent>> GetPostureEventsAsync(DateTime begin, DateTime end)
         {
-            string dateString = timestamp.ToString("yyyy-MM-dd");
+            // DateTimeを文字列に変換
+            string beginDate = begin.ToString("yyyy-MM-dd HH:00:00");
+            string endDate = end.ToString("yyyy-MM-dd HH:00:00");
 
-            return await _database.Table<PostureEvent>()
-                                  .Where(x => x.Timestamp.ToString("yyyy-MM-dd").StartsWith(dateString))
-                                  .ToListAsync();
+            var query = "SELECT * FROM PostureEvent WHERE Timestamp >= ? AND Timestamp < ?";
+            return await _database.QueryAsync<PostureEvent>(query, beginDate, endDate);
         }
 
-        public async Task<List<PostureEvent>> GetGroupedPostureEventsAsync(DateTime begin, DateTime end, GroupKey key)
+        public async Task<List<PostureEvent>> GetAveragePostureEventsByDayAsync(DateTime begin, DateTime end)
         {
-            var postureEvents = await _database.Table<PostureEvent>()
-                                               .Where(e => e.Timestamp >= begin && e.Timestamp <= end)
-                                               .ToListAsync();
+            var postureEvents = await GetPostureEventsAsync(begin, end);
 
-            IEnumerable<IGrouping<object, PostureEvent>> groupedEvents = key switch
-            {
-                GroupKey.Day => postureEvents.GroupBy(e => (object)e.Timestamp.Date),
-                GroupKey.Week => postureEvents.GroupBy(e => (object)CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(e.Timestamp, CalendarWeekRule.FirstDay, DayOfWeek.Sunday)),
-                _ => throw new ArgumentException("Invalid grouping key")
-            };
+            var groupedEvents = postureEvents.GroupBy(e => e.Timestamp.Date);
 
             var averageEvents = groupedEvents.Select(g => new PostureEvent
             {
-                Timestamp = key == GroupKey.Day ? (DateTime)g.Key : g.Min(e => e.Timestamp),
+                Timestamp = g.Min(e => e.Timestamp),
                 Check = g.Average(e => e.Check),
                 Detection = g.Average(e => e.Detection)
             }).ToList();
