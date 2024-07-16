@@ -9,8 +9,8 @@ namespace u22_strikeneck
     {
         [PrimaryKey]
         public DateTime Timestamp { get; set; }
-        public int Check { get; set; }
-        public int Detection { get; set; }
+        public double Check { get; set; }
+        public double Detection { get; set; }
     }
 
     public class DatabaseWriter

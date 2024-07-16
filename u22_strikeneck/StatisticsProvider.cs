@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Drm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace u22_strikeneck
 
     public static class StatisticsProvider
     {
+        // 姿勢検知の実行間隔(固定するので削除予定)
+        private const int checkPostureInterval = 1;
         public static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
         {
             // 年, 月, 日 のみをのこす
@@ -36,8 +39,8 @@ namespace u22_strikeneck
                 {
                     analyticsDataList[i] = new AnalyticsData
                     {
-                        ActiveTime = datasOfDay[i].Check * 1,
-                        ForwardLeanTime = datasOfDay[i].Detection * 1,
+                        ActiveTime = datasOfDay[i].Check * checkPostureInterval,
+                        ForwardLeanTime = datasOfDay[i].Detection * checkPostureInterval,
                         Date = new DateTime(
                             trimmedDate.Year,
                             trimmedDate.Month,
