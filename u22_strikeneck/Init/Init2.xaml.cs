@@ -27,7 +27,7 @@ public partial class Init2 : ContentPage
             await Task.Delay(TimeSpan.FromMilliseconds(10));
             StartTime = TimeOnly.FromDateTime(DateTime.Now);
 
-            if (StartTime.Second % 10 == 0)
+            if (StartTime.Second % 5 == 0)
             {
                 myImage.Source = cameraView.GetSnapShot(Camera.MAUI.ImageFormat.PNG);
                 await Task.Delay(TimeSpan.FromMilliseconds(1000));
