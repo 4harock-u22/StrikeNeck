@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using SQLite;
 
@@ -22,20 +24,30 @@ namespace u22_strikeneck
             await _database.CreateTableAsync<PostureEvent>();
         }
 
-        public async Task<PostureEvent> GetPostureEventByTimestampAsync(DateTime timestamp)
+        public async Task<List<PostureEvent>> GetPostureEventsAsync(DateTime begin, DateTime end)
         {
-            // 年, 月, 日, 時間 のみをのこし不要な 分, 秒 は削除
-            DateTime trimmedTimestamp = new DateTime(
-                timestamp.Year,
-                timestamp.Month,
-                timestamp.Day,
-                timestamp.Hour,
-                0,
-                0
-            );
-            return await _database.Table<PostureEvent>()
-                                  .Where(x => x.Timestamp == trimmedTimestamp)
-                                  .FirstOrDefaultAsync();
+            // DateTimeを文字列に変換
+            string beginDate = begin.ToString("yyyy-MM-dd HH:00:00");
+            string endDate = end.ToString("yyyy-MM-dd HH:00:00");
+
+            var query = "SELECT * FROM PostureEvent WHERE Timestamp >= ? AND Timestamp < ?";
+            return await _database.QueryAsync<PostureEvent>(query, beginDate, endDate);
+        }
+
+        public async Task<List<PostureEvent>> GetAveragePostureEventsByDayAsync(DateTime begin, DateTime end)
+        {
+            var postureEvents = await GetPostureEventsAsync(begin, end);
+
+            var groupedEvents = postureEvents.GroupBy(e => e.Timestamp.Date);
+
+            var averageEvents = groupedEvents.Select(g => new PostureEvent
+            {
+                Timestamp = g.Min(e => e.Timestamp),
+                Check = g.Average(e => e.Check),
+                Detection = g.Average(e => e.Detection)
+            }).ToList();
+
+            return averageEvents;
         }
     }
 }

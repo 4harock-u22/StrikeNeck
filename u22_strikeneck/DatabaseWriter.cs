@@ -9,8 +9,8 @@ namespace u22_strikeneck
     {
         [PrimaryKey]
         public DateTime Timestamp { get; set; }
-        public int Check { get; set; }
-        public int Detection { get; set; }
+        public float Check { get; set; }
+        public float Detection { get; set; }
     }
 
     public class DatabaseWriter
@@ -20,7 +20,7 @@ namespace u22_strikeneck
         public DatabaseWriter()
         {
             string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "posture_data.db");
-            _database = new SQLiteAsyncConnection(dbPath);
+            _database = new SQLiteAsyncConnection(dbPath, false);
             InitializeDatabase().Wait();
         }
 
