@@ -1,9 +1,4 @@
-﻿using Camera.MAUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ForwardLeanDetection.DiscriminantModel;
 
 namespace u22_strikeneck.Camera
 {
@@ -24,7 +19,15 @@ namespace u22_strikeneck.Camera
             isRunning = true;
             while (isRunning)
             {
-                await cameraAccessor.TakePhotoAsync();
+                var fldAPI = new API();
+                var dbWriter = new DatabaseWriter();
+                var timestamp = DateTime.Now;
+                var file = await cameraAccessor.TakePhotoAsync();
+
+                var result = fldAPI.Predict(file, 0);
+                
+                await dbWriter.UpdateOrInsertPostureEventAsync(timestamp, result);
+
                 await Task.Delay(interval);
             }
         }
