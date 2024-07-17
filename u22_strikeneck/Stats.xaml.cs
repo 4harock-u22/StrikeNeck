@@ -87,8 +87,8 @@ namespace u22_strikeneck
         DateTime date = DateTime.Now;
         private void DurationPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var picker = (Picker)sender;
-            var selectedIndex = picker.SelectedIndex;
+            //var picker = (Picker)sender;
+            var selectedIndex = DurationPicker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
             date = DateTime.Now;
             switch (selectedIndex)
@@ -246,8 +246,8 @@ namespace u22_strikeneck
 
         private void BackButton_Clicked(object sender, EventArgs e)
         {
-            var picker = (Picker)sender;
-            var selectedIndex = picker.SelectedIndex;
+            //var picker = (Picker)sender;
+            var selectedIndex = DurationPicker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
             
             switch (selectedIndex)
@@ -403,8 +403,8 @@ namespace u22_strikeneck
 
         private void NextButton_Clicked(object sender, EventArgs e)
         {
-            var picker = (Picker)sender;
-            var selectedIndex = picker.SelectedIndex;
+            //var picker = (Picker)sender;
+            var selectedIndex = DurationPicker.SelectedIndex;
             Label myLabel = this.FindByName<Label>("unit");
 
             switch (selectedIndex)
