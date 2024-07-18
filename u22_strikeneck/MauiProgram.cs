@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui;
 using Camera.MAUI;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using SQLite;
 
 namespace u22_strikeneck
 {
@@ -20,6 +21,8 @@ namespace u22_strikeneck
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 }).UseMauiCommunityToolkit();
+
+            SQLitePCL.Batteries_V2.Init();
 
 #if DEBUG
             builder.Logging.AddDebug();
