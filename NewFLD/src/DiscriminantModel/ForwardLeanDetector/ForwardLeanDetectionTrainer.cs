@@ -9,9 +9,9 @@ namespace DiscriminantModel.ForwardLeanDetector
     class ForwardLeanDetectionTrainer
     {
 
-        internal void Retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
+        internal async Task Retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
         {
-            var trainData = this.BuildTrainData(currectPosture, forwardLeanPosture);
+            var trainData = await this.BuildTrainData(currectPosture, forwardLeanPosture);
             var modelPath = MLModel1.MLNetModelPath;
             var context = new MLContext();
             var inputData = context.Data.LoadFromEnumerable<MLModel1.ModelInput>(trainData);
@@ -19,11 +19,11 @@ namespace DiscriminantModel.ForwardLeanDetector
             context.Model.Save(newModel, inputData.Schema, modelPath);
         }
 
-        IEnumerable<MLModel1.ModelInput> BuildTrainData(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
+        private async Task<IEnumerable<MLModel1.ModelInput>> BuildTrainData(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
         {
-            var currentInputs = this.posturesEstimate(currectPosture, false);
+            var currentInputs = await this.posturesEstimate(currectPosture, false);
 
-            var forwardLeanInputs = this.posturesEstimate(forwardLeanPosture, true);
+            var forwardLeanInputs = await this.posturesEstimate(forwardLeanPosture, true);
 
             var modelInputsList = new List<MLModel1.ModelInput>();
             modelInputsList.AddRange(currentInputs);
@@ -32,24 +32,24 @@ namespace DiscriminantModel.ForwardLeanDetector
             return modelInputsList;
         }
 
-         List<MLModel1.ModelInput> posturesEstimate(DirectoryInfo posture, bool result)
+         private async Task<List<MLModel1.ModelInput>> posturesEstimate(DirectoryInfo posture, bool result)
          {
             var inputs = new List<MLModel1.ModelInput>();
             foreach (var sample in posture.GetFiles())
             {
-                var input = this.postureEstimate(sample, result);
+                var input = await this.postureEstimate(sample, result);
                 inputs.Add(input);
             }
 
             return inputs;
         }
 
-        MLModel1.ModelInput postureEstimate(FileInfo sample, bool res)
+        private async Task<MLModel1.ModelInput> postureEstimate(FileInfo sample, bool res)
         {
             var postureEstimator = new PostureEstimatesAPI();
             var sampleImage = Image.Load<Rgb24>(sample.FullName);
 
-            var result = postureEstimator.predict(sampleImage);
+            var result = await postureEstimator.Predict(sampleImage);
 
             float N_LEye_X = result[KeyPointType.Nose].x - result[KeyPointType.LeftEye].x;
             float N_LEye_Y = result[KeyPointType.Nose].y - result[KeyPointType.LeftEye].y;

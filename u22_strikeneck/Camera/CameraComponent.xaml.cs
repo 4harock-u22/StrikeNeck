@@ -12,7 +12,7 @@ public partial class CameraComponent : ContentView {
     {
         InitializeComponent();
 
-        var directoryPath = Path.Combine(FileSystem.Current.CacheDirectory, "pic");
+        var directoryPath = Path.Combine(FileSystem.Current.CacheDirectory, "local", "pic");
         var directoryInfo = new DirectoryInfo(directoryPath);
         if (! directoryInfo.Exists) directoryInfo.Create();
         
@@ -33,10 +33,8 @@ public partial class CameraComponent : ContentView {
             var result = await cameraView.StartCameraAsync();
             if (result != CameraResult.Success)
                 throw new Exception("ƒJƒƒ‰‚ğ³í‚É‹N“®‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½");
-
-            periodicTaskRunner.StartAsync();
+            await Task.Delay(250);
+            await periodicTaskRunner.StartAsync();
         });
-
-    }
-    
+    }    
 }

@@ -13,11 +13,19 @@ namespace u22_strikeneck.Camera
             this.savedDirectory = savedDirectory;
         }
 
-        internal async Task<bool> TakePhotoAsync(String fileName="image.jpeg")
+        internal FileInfo TakePhotoAsync(String fileName="image.png")
         {
             var filePath = Path.Combine(savedDirectory.FullName, fileName);
-            var isSuccess = await cameraView.SaveSnapShot(ImageFormat.JPEG, filePath);
-            return isSuccess;
+            var resTask = cameraView.SaveSnapShot(ImageFormat.PNG, filePath);
+            resTask.Wait();
+            return new FileInfo(filePath);
+        }
+
+        internal FileInfo TakePhoto(String fileName = "image.png")
+        {
+            var filePath = Path.Combine(savedDirectory.FullName, fileName);
+            cameraView.SaveSnapShot(ImageFormat.PNG, filePath);
+            return new FileInfo(filePath);
         }
     }
 }
