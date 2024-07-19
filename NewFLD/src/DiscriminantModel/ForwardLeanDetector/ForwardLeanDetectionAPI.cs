@@ -6,7 +6,7 @@ namespace DiscriminantModel.ForwardLeanDetector
 {
     class ForwardLeanDetectionAPI
     {
-        public bool Predict(Dictionary<KeyPointType, TwoDPoint> jointPositions, double bias)
+        public async Task<bool> Predict(Dictionary<KeyPointType, TwoDPoint> jointPositions, double bias)
         {
             var preprocessor = new ForwardLeanDetectionPretreatment();
             var postProcessor = new ForwardLeanDetectionPostProcessor();
@@ -17,10 +17,10 @@ namespace DiscriminantModel.ForwardLeanDetector
             return result;
         }
 
-        public async void Retrain(DirectoryInfo currentPostureData, DirectoryInfo forwardPostureData)
+        public async Task Retrain(DirectoryInfo currentPostureData, DirectoryInfo forwardPostureData)
         {
             var trainer = new ForwardLeanDetectionTrainer();
-            trainer.Retrain(currentPostureData, forwardPostureData);
+            await trainer.Retrain(currentPostureData, forwardPostureData);
         }
     }
 }
