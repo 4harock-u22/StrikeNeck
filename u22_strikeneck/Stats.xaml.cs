@@ -4,18 +4,18 @@ using LiveCharts.Wpf;
 using u22_strikeneck.ViewModels;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
 using System.IO;
-
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Maui.Controls;
 
 namespace u22_strikeneck
-
 {
     public class AnalyticsResult
     {
-        public float[] ActivateTimes { get; set; }
-        public float[] ForwardLeanTimes { get; set; }
-        public string[] AxisLabels { get; set; }
+        public List<float> ActivateTimes { get; set; }
+        public List<float> ForwardLeanTimes { get; set; }
+        public List<string> AxisLabels { get; set; }
     }
 
     public partial class Stats : ContentPage
@@ -35,43 +35,22 @@ namespace u22_strikeneck
             InitializeComponent();
             Binding binding = new Binding();
             StatsViewModel = new StatsViewModel();
+            DurationPicker.SelectedIndex = 0;
         }
 
-        private void DurationPicker_SelectedIndexChanged(object sender, EventArgs e)
+        private void ChangSelectIndex(object sender, EventArgs e)
         {
-            var picker = sender as Picker;
-            if (picker == null)
-            {
-                File.AppendAllText("C://Log//log.txt", "On Main\n");
-                return;
-            }
-            int selectedIndex = picker.SelectedIndex;
-            UpdateAnalytics(selectedIndex);
+            UpdateAnalytics(DurationPicker.SelectedIndex);
         }
 
-        private void BackButton_Clicked(object sender, EventArgs e)
+        private void ClickBackButton(object sender, EventArgs e)
         {
-            var picker = sender as Picker;
-            if (picker == null)
-            {
-                File.AppendAllText("C://Log//log.txt", "On Back\n");
-                return;
-            }
-            int selectedIndex = picker.SelectedIndex;
-            UpdateAnalytics(selectedIndex, isBack: true);
+            UpdateAnalytics(DurationPicker.SelectedIndex, isBack: true);
         }
 
-        private void NextButton_Clicked(object sender, EventArgs e)
+        private void ClickNextButton(object sender, EventArgs e)
         {
-            var picker = sender as Picker;
-            if (picker == null)
-            {
-                File.AppendAllText("C://Log//log.txt", "On Next\n");
-                return;
-            }
-            int selectedIndex = picker.SelectedIndex;
-            File.AppendAllText("C://Log//log.txt", selectedIndex.ToString());
-            UpdateAnalytics(selectedIndex, isNext: true);
+            UpdateAnalytics(DurationPicker.SelectedIndex, isNext: true);
         }
 
         private void UpdateAnalytics(int selectedIndex, bool isBack = false, bool isNext = false)
@@ -99,6 +78,7 @@ namespace u22_strikeneck
             }
 
             var analytics = GetAnalytics(selectedIndex, date);
+
             UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
             myLabel.Text = selectedIndex == 0 ? "(•ª)" : "(ŽžŠÔ)";
 
@@ -113,7 +93,7 @@ namespace u22_strikeneck
             {
                 case 0:
                     var analyticsPerDay = StatisticsProvider.GetAnalyticsPerDayAsync(date).Result;
-                    return ProcessDailyAnalyticsData(analyticsPerDay);
+                    return ProcessDailyAnalyticsData(analyticsPerDay, 24);
                 case 1:
                     var analyticsPerWeek = StatisticsProvider.GetAnalyticsPerWeekAsync(date).Result;
                     return ProcessWeeklyOrMonthlyAnalyticsData(analyticsPerWeek, 7);
@@ -125,24 +105,16 @@ namespace u22_strikeneck
             }
         }
 
-        private AnalyticsResult ProcessDailyAnalyticsData(IEnumerable<AnalyticsData> analyticsData)
+        private AnalyticsResult ProcessDailyAnalyticsData(IEnumerable<AnalyticsData> analyticsData, int length = 24)
         {
-            int length = 24;
             var result = new AnalyticsResult
             {
-                ActivateTimes = new float[length],
-                ForwardLeanTimes = new float[length],
+                ActivateTimes = analyticsData.Take(length).Select(apd => apd.ActiveTime).ToList(),
+                ForwardLeanTimes = analyticsData.Take(length).Select(apd => apd.ForwardLeanTime).ToList(),
                 AxisLabels = analyticsData.Take(length)
                                           .Select(apd => $"{apd.Date.Hour}:00")
-                                          .ToArray()
+                                          .ToList()
             };
-
-            for (int i = 0; i < length; i++)
-            {
-                var data = analyticsData.ElementAt(i);
-                result.ActivateTimes[i] = data.ActiveTime;
-                result.ForwardLeanTimes[i] = data.ForwardLeanTime;
-            }
 
             return result;
         }
@@ -151,9 +123,9 @@ namespace u22_strikeneck
         {
             var result = new AnalyticsResult
             {
-                ActivateTimes = new float[length],
-                ForwardLeanTimes = new float[length],
-                AxisLabels = new string[length]
+                ActivateTimes = analyticsData.Take(length).Select(apwm => apwm.ActiveTime).ToList(),
+                ForwardLeanTimes = analyticsData.Take(length).Select(apwm => apwm.ForwardLeanTime).ToList(),
+                AxisLabels = new List<string>()
             };
 
             {
@@ -162,17 +134,17 @@ namespace u22_strikeneck
 
                 foreach (var data in analyticsData.Take(length))
                 {
-                    result.ActivateTimes[index] = data.ActiveTime;
-                    result.ForwardLeanTimes[index] = data.ForwardLeanTime;
+                    result.ActivateTimes.Add(data.ActiveTime);
+                    result.ForwardLeanTimes.Add(data.ForwardLeanTime);
 
                     if (previousMonth != data.Date.Month)
                     {
-                        result.AxisLabels[index] = $"{data.Date.Month.ToString().PadLeft(2, ' ')}/{data.Date.Day.ToString().PadLeft(2, ' ')}";
+                        result.AxisLabels.Add($"{data.Date.Month.ToString().PadLeft(2, ' ')}/{data.Date.Day.ToString().PadLeft(2, ' ')}");
                         previousMonth = data.Date.Month;
                     }
                     else
                     {
-                        result.AxisLabels[index] = $"{data.Date.Day.ToString().PadLeft(2, ' ')}";
+                        result.AxisLabels.Add($"{data.Date.Day.ToString().PadLeft(2, ' ')}");
                     }
 
                     index++;
@@ -182,7 +154,7 @@ namespace u22_strikeneck
             return result;
         }
 
-        private void UpdateStatsViewModel(float[] activateTimes, float[] forwardLeanTimes, string[] axisLabels)
+        private void UpdateStatsViewModel(List<float> activateTimes, List<float> forwardLeanTimes, List<string> axisLabels)
         {
             StatsViewModel.SetStartUpTime(activateTimes);
             StatsViewModel.SetPoorPostureTime(forwardLeanTimes);
@@ -219,7 +191,6 @@ namespace u22_strikeneck
 
             await snackbar.Show(cancellationTokenSource.Token);
         }
-
 
         private void Button_Clicked(object sender, EventArgs e)
         {
