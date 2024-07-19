@@ -5,6 +5,8 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using System.Reflection;
+
 namespace NewFLD
 {
     public partial class MLModel1
@@ -122,7 +124,9 @@ namespace NewFLD
         private static PredictionEngine<ModelInput, ModelOutput> CreatePredictEngine()
         {
             var mlContext = new MLContext();
-            ITransformer mlModel = mlContext.Model.Load(MLNetModelPath, out var _);
+            var assembly = Assembly.GetExecutingAssembly();
+            var modelStream = assembly.GetManifestResourceStream("fldmodel");
+            ITransformer mlModel = mlContext.Model.Load(modelStream, out var _);
             return mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
         }
     }
