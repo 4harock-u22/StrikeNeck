@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.16.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.1" />
     <EmbeddedResource Include="src\DiscriminantModel\PostureEstimates\Resources\posenet.onnx" LogicalName="posenet" />
+	<EmbeddedResource Include="MLModel1.zip" LogicalName="fldmodel" />
   </ItemGroup>
   <ItemGroup Label="MLModel1">
     <None Include="MLModel1.consumption.cs">
