@@ -28,6 +28,7 @@
                         VerticalOptions="EndAndExpand"
                         Margin="0,10,40,0"
                         HorizontalOptions="EndAndExpand"
+                         
                         SelectedIndexChanged="NotificationIntervalPicker_SelectedIndexChanged">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">

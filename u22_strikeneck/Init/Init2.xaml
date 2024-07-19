@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              x:Class="u22_strikeneck.Init.Init2"
-             Title="Init2">
+             Title="初期設定2">
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"

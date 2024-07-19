@@ -82,6 +82,7 @@ namespace u22_strikeneck
             InitializeComponent();
             Binding binding = new Binding();
             StatsViewModel = new StatsViewModel();
+            DurationPicker.SelectedItem = "“úŠÔ";
         }
 
         DateTime date = DateTime.Now;
