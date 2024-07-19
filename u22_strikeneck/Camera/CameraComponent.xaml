@@ -8,8 +8,7 @@
                        WidthRequest="300" 
                        HeightRequest="200" 
                        CamerasLoaded="cameraView_CamerasLoaded"
-                       IsVisible="true"/>
-
+                       IsVisible="false"/>
     </StackLayout>
     
 
