@@ -8,7 +8,6 @@ namespace u22_strikeneck.Camera
     internal class PeriodicToastSender
     {
         private static DateTime lastSentTime = DateTime.Now.AddDays(-1);
-        private bool isRunning = false;
 
 
         public bool IsDurationPassed(DateTime dataTime)
