@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using SQLite;
-using Windows.Foundation.Metadata;
 
 namespace u22_strikeneck
 {
@@ -24,8 +23,6 @@ namespace u22_strikeneck
 
         private async Task Init()
         {
-            bool isUWP = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 1);
-            File.AppendAllText("C://Log//log.txt", $"Is UWP: {isUWP}");
             if (_database is not null)
             {
                 return;

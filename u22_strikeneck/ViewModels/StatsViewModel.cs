@@ -69,23 +69,29 @@ namespace u22_strikeneck.ViewModels
         public void SetStartUpTime(List<float> newValues)
         {
             startUpTime = newValues;
-            UpdateGraph();
         }
 
         public void SetPoorPostureTime(List<float> newValues)
         {
             poorPostureTime = newValues;
-            UpdateGraph();
         }
 
         public void SetAxisLabels(List<string> newValues)
         {
             axisLabels = newValues;
-            UpdateGraph();
         }
 
         public void UpdateGraph()
         {
+            if (!(startUpTime.Count == axisLabels.Count && poorPostureTime.Count == axisLabels.Count)) 
+            {
+                File.AppendAllText("C://Log//log.txt", "not Equals\n");
+                return;
+            }
+            else
+            {
+                File.AppendAllText("C://Log//log.txt", "equals\n");
+            }
             Series = new ISeries[]
             {
                 new ColumnSeries<float> {

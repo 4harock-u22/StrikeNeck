@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace u22_strikeneck
 {
@@ -19,6 +20,88 @@ namespace u22_strikeneck
     {
         // 姿勢検知の実行間隔(固定するので削除予定)
         private const int checkPostureInterval = 1;
+
+        public static async Task<StatsData> ProcessDailyAnalyticsData(DateTime date, int length)
+        {
+            var analyticsData = await GetAnalyticsPerDayAsync(date);
+            var result = new StatsData
+            {
+                ActivateTimes = analyticsData.Take(length).Select(apd => apd.ActiveTime).ToList(),
+                ForwardLeanTimes = analyticsData.Take(length).Select(apd => apd.ForwardLeanTime).ToList(),
+                AxisLabels = analyticsData.Take(length)
+                                          .Select(apd => $"{apd.Date.Hour}:00")
+                                          .ToList()
+            };
+            result.AxisLabels[0] = date.ToString("M/d 00:00");
+            return result;
+        }
+
+        public static async Task<StatsData> ProcessWeeklyAnalyticsData(DateTime date, int length)
+        {
+            var analyticsData = await GetAnalyticsPerWeekAsync(date);
+            var result = new StatsData
+            {
+                ActivateTimes = analyticsData.Take(length).Select(apwm => apwm.ActiveTime).ToList(),
+                ForwardLeanTimes = analyticsData.Take(length).Select(apwm => apwm.ForwardLeanTime).ToList(),
+                AxisLabels = new List<string>()
+            };
+
+            {
+                int previousMonth = 0;
+                int index = 0;
+
+                foreach (var data in analyticsData.Take(length))
+                {
+                    if (previousMonth != data.Date.Month)
+                    {
+                        result.AxisLabels.Add($"{data.Date.Month.ToString().PadLeft(2, ' ')}/{data.Date.Day.ToString().PadLeft(2, ' ')}");
+                        previousMonth = data.Date.Month;
+                    }
+                    else
+                    {
+                        result.AxisLabels.Add($"{data.Date.Day.ToString().PadLeft(2, ' ')}");
+                    }
+
+                    index++;
+                }
+            }
+
+            return result;
+        }
+
+        public static async Task<StatsData> ProcessMonthlyAnalyticsData(DateTime date, int length)
+        {
+            var analyticsData = await GetAnalyticsPerMonthAsync(date);
+            var result = new StatsData
+            {
+                ActivateTimes = analyticsData.Take(length).Select(apwm => apwm.ActiveTime).ToList(),
+                ForwardLeanTimes = analyticsData.Take(length).Select(apwm => apwm.ForwardLeanTime).ToList(),
+                AxisLabels = new List<string>()
+            };
+
+            {
+                int previousMonth = 0;
+                int index = 0;
+
+                foreach (var data in analyticsData.Take(length))
+                {
+                    if (previousMonth != data.Date.Month)
+                    {
+                        result.AxisLabels.Add($"{data.Date.Month.ToString().PadLeft(2, ' ')}/{data.Date.Day.ToString().PadLeft(2, ' ')}");
+                        previousMonth = data.Date.Month;
+                    }
+                    else
+                    {
+                        result.AxisLabels.Add($"{data.Date.Day.ToString().PadLeft(2, ' ')}");
+                    }
+
+                    index++;
+                }
+            }
+
+            return result;
+        }
+
         public static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
         {
             DatabaseWriter writer = new DatabaseWriter();
@@ -77,7 +160,7 @@ namespace u22_strikeneck
 
                 if (postureEventsByDay.Count > 0 && index < postureEventsByDay.Count)
                 {
-                    if (postureEventsByDay[index].Timestamp.Day == begin.Day + i)
+                    if (postureEventsByDay[index].Timestamp == data.Date)
                     {
                         data.ActiveTime = postureEventsByDay[index].Check * checkPostureInterval;
                         data.ForwardLeanTime = postureEventsByDay[index].Detection * checkPostureInterval;
@@ -111,7 +194,7 @@ namespace u22_strikeneck
 
                 if (postureEventsByDay.Count > 0 && index < postureEventsByDay.Count)
                 {
-                    if (postureEventsByDay[index].Timestamp.Day + (postureEventsByDay[index].Timestamp.Month - begin.Month) * DateTime.DaysInMonth(begin.Year, begin.Month) == begin.Day + i)
+                    if (postureEventsByDay[index].Timestamp == data.Date)
                     {
                         data.ActiveTime = postureEventsByDay[index].Check * checkPostureInterval;
                         data.ForwardLeanTime = postureEventsByDay[index].Detection * checkPostureInterval;
