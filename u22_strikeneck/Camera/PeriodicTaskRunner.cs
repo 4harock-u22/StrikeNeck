@@ -1,8 +1,6 @@
-﻿using Camera.MAUI;
-using ForwardLeanDetection.DiscriminantModel;
-using Microsoft.Maui.Storage;
+﻿using ForwardLeanDetection.DiscriminantModel;
 using System.Diagnostics;
-using Windows.UI.Notifications;
+using u22_strikeneck.AppSettingIO;
 
 namespace u22_strikeneck.Camera
 {
@@ -57,13 +55,15 @@ namespace u22_strikeneck.Camera
         {
             var fldAPI = new API();
             var dbWriter = new DatabaseWriter();
+            var appSettingReader = new AppSettingReader();
             var toastSender = new PeriodicToastSender();
 
             var fileName = "image.png";
             var timeStamp = DateTime.Now;
+            var bias = appSettingReader.GetDetectionSensitivity().CalcSensitivityRatio();
 
             var file = cameraAccessor.TakePhotoAsync(fileName);
-            var result = await fldAPI.Predict(file, 0);
+            var result = await fldAPI.Predict(file, bias);
 
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
