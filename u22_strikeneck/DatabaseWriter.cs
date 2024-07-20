@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using SQLite;
+using Windows.Foundation.Metadata;
 
 namespace u22_strikeneck
 {
@@ -23,13 +24,15 @@ namespace u22_strikeneck
 
         private async Task Init()
         {
-            if (_database != null)
+            bool isUWP = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 1);
+            File.AppendAllText("C://Log//log.txt", $"Is UWP: {isUWP}");
+            if (_database is not null)
             {
                 return;
             }
-            string dbPath = @"C:\Users\locke\AppData\Local\posture_data.db";
+            string dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "posture_data.db");
             _database = new SQLiteAsyncConnection(dbPath, false);
-            await _database.CreateTableAsync<PostureEvent>();
+            var result = await _database.CreateTableAsync<PostureEvent>();
         }
 
         public async Task UpdateOrInsertPostureEventAsync(DateTime timestamp, bool isDistortionDetected)
@@ -47,7 +50,7 @@ namespace u22_strikeneck
             var existingEvent = await _database.Table<PostureEvent>()
                                                .Where(x => x.Timestamp == trimmedTimestamp)
                                                .FirstOrDefaultAsync();
-            if (existingEvent != null)
+            if (existingEvent is not null)
             {
                 existingEvent.Check += 1;
                 if (isDistortionDetected)

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using SQLite;
 
 namespace u22_strikeneck
@@ -18,13 +20,13 @@ namespace u22_strikeneck
 
         private async Task Init()
         {
-            if (_database != null)
+            if (_database is not null)
             {
                 return;
             }
-            string dbPath = @"C:\Users\locke\AppData\Local\posture_data.db";
+            string dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "posture_data.db");
             _database = new SQLiteAsyncConnection(dbPath, false);
-            await _database.CreateTableAsync<PostureEvent>();
+            var result = await _database.CreateTableAsync<PostureEvent>();
         }
 
         public async Task<List<PostureEvent>> GetPostureEventsAsync(DateTime begin, DateTime end)
@@ -35,7 +37,7 @@ namespace u22_strikeneck
 
             var query = "SELECT * FROM PostureEvent WHERE Timestamp >= ? AND Timestamp < ?";
             var result = await _database.QueryAsync<PostureEvent>(query, beginDate, endDate);
-            if (result != null)
+            if (result is not null)
             {
                 return result;
             }

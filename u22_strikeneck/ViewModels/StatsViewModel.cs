@@ -10,10 +10,12 @@ namespace u22_strikeneck.ViewModels
 {
     public class StatsViewModel : INotifyPropertyChanged
     {
+        private List<float> startUpTime = new List<float>();
+        private List<float> poorPostureTime = new List<float>();
+        private List<string> axisLabels = new List<string>();
+
         private ISeries[] series;
-        private static List<float> startUpTime = new List<float>();
-        private static List<float> poorPostureTime = new List<float>();
-        private static List<string> axisLabels = new List<string>();
+        private Axis[] xAxes;
 
         public StatsViewModel()
         {
@@ -47,8 +49,6 @@ namespace u22_strikeneck.ViewModels
             }
         }
 
-        private Axis[] xAxes;
-
         public Axis[] XAxes
         {
             get { return xAxes; }
@@ -66,31 +66,39 @@ namespace u22_strikeneck.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static void SetStartUpTime(List<float> newValues)
+        public void SetStartUpTime(List<float> newValues)
         {
             startUpTime = newValues;
+            UpdateGraph();
         }
 
-        public static void SetPoorPostureTime(List<float> newValues)
+        public void SetPoorPostureTime(List<float> newValues)
         {
             poorPostureTime = newValues;
+            UpdateGraph();
+        }
+
+        public void SetAxisLabels(List<string> newValues)
+        {
+            axisLabels = newValues;
+            UpdateGraph();
         }
 
         public void UpdateGraph()
         {
-            series = new ISeries[]
+            Series = new ISeries[]
             {
                 new ColumnSeries<float> {
                     Values = startUpTime.ToArray(),
                     Stroke = null,
                     MaxBarWidth = 60,
-                    IgnoresBarPosition = true,
+                    IgnoresBarPosition = true
                 },
                 new ColumnSeries<float> {
                     Values = poorPostureTime.ToArray(),
                     Stroke = null,
                     MaxBarWidth = 30,
-                    IgnoresBarPosition = true,
+                    IgnoresBarPosition = true
                 }
             };
 
@@ -98,14 +106,6 @@ namespace u22_strikeneck.ViewModels
             {
                 new Axis { Labels = axisLabels.ToArray() }
             };
-
-            OnPropertyChanged(nameof(Series));
-            OnPropertyChanged(nameof(XAxes));
-        }
-
-        public static void SetAxisLabels(List<string> newValues)
-        {
-            axisLabels = newValues;
         }
     }
 }
