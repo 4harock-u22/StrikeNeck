@@ -8,19 +8,17 @@ namespace u22_strikeneck.AppSettingIO
 {
     public class DetectionSensitivity
     {
-        private static readonly int MAX_SENSITIVITY = 100;
-        private static readonly int MIN_SENSITIVITY = -100;
+        private static readonly double MAX_SENSITIVITY = 1;
+        private static readonly double MIN_SENSITIVITY = -1;
 
-        private readonly int sensitivity;
+        public readonly double value;
 
-        public DetectionSensitivity(int sensitivity = 0)
+        public DetectionSensitivity(double sensitivity = 0)
         {
             if (sensitivity < MIN_SENSITIVITY || sensitivity > MAX_SENSITIVITY)
                 throw new ArgumentOutOfRangeException($"sensitivity must be between {MIN_SENSITIVITY} and ${MAX_SENSITIVITY}");
 
-            this.sensitivity = sensitivity;
+            this.value = sensitivity;
         }
-
-        public int Sensitivity => sensitivity;
     }
 }
