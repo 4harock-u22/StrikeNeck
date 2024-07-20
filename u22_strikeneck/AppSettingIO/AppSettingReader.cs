@@ -17,7 +17,7 @@ namespace u22_strikeneck.AppSettingIO
                 Preferences.Default.Set(AppSettingKey.NotificationInterval.ToString(), (int)NotificationInterval.FifteenMinutes);
 
             if (!Preferences.Default.ContainsKey(AppSettingKey.DetectionSensitivity.ToString()))
-                Preferences.Default.Set(AppSettingKey.DetectionSensitivity.ToString(), 0);
+                Preferences.Default.Set(AppSettingKey.DetectionSensitivity.ToString(), 0d);
         }
 
         public bool GetNotificationStatus()
@@ -36,7 +36,7 @@ namespace u22_strikeneck.AppSettingIO
         public DetectionSensitivity GetDetectionSensitivity()
         {
             var key = AppSettingKey.DetectionSensitivity.ToString();
-            return new DetectionSensitivity(Preferences.Default.Get(key, 0));
+            return new DetectionSensitivity(Preferences.Default.Get(key, 0d));
         }
 
 

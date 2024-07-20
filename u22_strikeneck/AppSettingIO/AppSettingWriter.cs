@@ -26,7 +26,7 @@ namespace u22_strikeneck.AppSettingIO
         {
             // Update detection sensitivity
             var key = AppSettingKey.DetectionSensitivity.ToString();
-            Preferences.Default.Set(key, sensitivity.Sensitivity);
+            Preferences.Default.Set(key, sensitivity.value);
         }
     }
 }
