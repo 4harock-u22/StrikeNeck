@@ -22,5 +22,10 @@ namespace u22_strikeneck.AppSettingIO
         }
 
         public int Sensitivity => sensitivity;
+
+        public double CalcSensitivityRatio()
+        {
+            return sensitivity / 100.0;
+        }
     }
 }
