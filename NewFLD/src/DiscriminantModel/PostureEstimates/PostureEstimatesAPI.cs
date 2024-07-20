@@ -13,7 +13,7 @@ namespace DiscriminantModel.PostureEstimates
     public class PostureEstimatesAPI
     {
         //predict
-        public Dictionary<KeyPointType, TwoDPoint> predict(Image<Rgb24> predictedImage)
+        public async Task<Dictionary<KeyPointType, TwoDPoint>> Predict(Image<Rgb24> predictedImage)
         {
             var dataPretreatment = new PostureEstimatesDataPretreatment();
 
