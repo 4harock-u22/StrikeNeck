@@ -2,6 +2,7 @@
 using ForwardLeanDetection.DiscriminantModel;
 using Microsoft.Maui.Storage;
 using System.Diagnostics;
+using Windows.UI.Notifications;
 
 namespace u22_strikeneck.Camera
 {
@@ -56,6 +57,7 @@ namespace u22_strikeneck.Camera
         {
             var fldAPI = new API();
             var dbWriter = new DatabaseWriter();
+            var toastSender = new PeriodicToastSender();
 
             var fileName = "image.png";
             var timeStamp = DateTime.Now;
@@ -65,9 +67,12 @@ namespace u22_strikeneck.Camera
 
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
-            #if DEBUG
-                Trace.WriteLine("FLD: " + result);
-            #endif
+#if DEBUG
+            Trace.WriteLine("FLD: " + result);
+#endif
+
+            if (result == true && toastSender.IsDurationPassed(timeStamp)) 
+                await toastSender.sendToast();
         }
     }
 }
