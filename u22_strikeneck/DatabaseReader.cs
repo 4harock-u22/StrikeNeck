@@ -1,42 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using SQLite;
 
 namespace u22_strikeneck
 {
     public class DatabaseReader
     {
-        private readonly SQLiteAsyncConnection _database;
+        private SQLiteAsyncConnection _database;
 
         public DatabaseReader()
         {
-            string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "posture_data.db");
-            _database = new SQLiteAsyncConnection(dbPath);
-            InitializeDatabase().Wait();
         }
 
-        private async Task InitializeDatabase()
+        private async Task Init()
         {
-            await _database.CreateTableAsync<PostureEvent>();
+            if (_database is not null)
+            {
+                return;
+            }
+            string dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "posture_data.db");
+            _database = new SQLiteAsyncConnection(dbPath, false);
+            var result = await _database.CreateTableAsync<PostureEvent>();
         }
 
         public async Task<List<PostureEvent>> GetPostureEventsAsync(DateTime begin, DateTime end)
         {
-            // DateTimeを文字列に変換
+            await Init();
             string beginDate = begin.ToString("yyyy-MM-dd HH:00:00");
             string endDate = end.ToString("yyyy-MM-dd HH:00:00");
 
             var query = "SELECT * FROM PostureEvent WHERE Timestamp >= ? AND Timestamp < ?";
-            return await _database.QueryAsync<PostureEvent>(query, beginDate, endDate);
+            var result = await _database.QueryAsync<PostureEvent>(query, beginDate, endDate);
+            if (result is not null)
+            {
+                return result;
+            }
+            else
+            {
+                return new List<PostureEvent>();
+            }
         }
 
         public async Task<List<PostureEvent>> GetAveragePostureEventsByDayAsync(DateTime begin, DateTime end)
         {
+            await Init();
             var postureEvents = await GetPostureEventsAsync(begin, end);
+            if (postureEvents.Count == 0)
+            {
+                return new List<PostureEvent>();
+            }
 
             var groupedEvents = postureEvents.GroupBy(e => e.Timestamp.Date);
 

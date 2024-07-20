@@ -7,8 +7,27 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="統計"
+        ContentTemplate="{DataTemplate local:Stats}"
+        Route="Stats" />
+    <ShellContent
+        Title="設定"
+        ContentTemplate="{DataTemplate local:Settings}"
+        Route="Settings" />
+
+    <ShellContent
+        Title="初期設定1"
+        ContentTemplate="{DataTemplate local:Init.Init1}"
+        Route="Init1" />
+
+    <ShellContent
+        Title="初期設定2"
+        ContentTemplate="{DataTemplate local:Init.Init2}"
+        Route="Init2" />
+
+    <ShellContent
+        Title="プレビュー"
+        ContentTemplate="{DataTemplate local:Init.Init3}"
+        Route="Init3" />
 
 </Shell>

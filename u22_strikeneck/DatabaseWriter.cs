@@ -15,22 +15,26 @@ namespace u22_strikeneck
 
     public class DatabaseWriter
     {
-        private readonly SQLiteAsyncConnection _database;
+        private SQLiteAsyncConnection _database;
 
         public DatabaseWriter()
         {
-            string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "posture_data.db");
-            _database = new SQLiteAsyncConnection(dbPath, false);
-            InitializeDatabase().Wait();
         }
 
-        private async Task InitializeDatabase()
+        private async Task Init()
         {
-            await _database.CreateTableAsync<PostureEvent>();
+            if (_database is not null)
+            {
+                return;
+            }
+            string dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "posture_data.db");
+            _database = new SQLiteAsyncConnection(dbPath, false);
+            var result = await _database.CreateTableAsync<PostureEvent>();
         }
 
         public async Task UpdateOrInsertPostureEventAsync(DateTime timestamp, bool isDistortionDetected)
         {
+            await Init();
             // 年, 月, 日, 時間 のみをのこし不要な 分, 秒 は削除
             DateTime trimmedTimestamp = new DateTime(
                 timestamp.Year,
@@ -43,7 +47,7 @@ namespace u22_strikeneck
             var existingEvent = await _database.Table<PostureEvent>()
                                                .Where(x => x.Timestamp == trimmedTimestamp)
                                                .FirstOrDefaultAsync();
-            if (existingEvent != null)
+            if (existingEvent is not null)
             {
                 existingEvent.Check += 1;
                 if (isDistortionDetected)
