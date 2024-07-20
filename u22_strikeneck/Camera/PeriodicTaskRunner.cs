@@ -2,6 +2,7 @@
 using ForwardLeanDetection.DiscriminantModel;
 using Microsoft.Maui.Storage;
 using System.Diagnostics;
+using Windows.UI.Notifications;
 
 namespace u22_strikeneck.Camera
 {
@@ -10,7 +11,8 @@ namespace u22_strikeneck.Camera
         CameraAccessor cameraAccessor;
         TimeSpan interval = TimeSpan.FromSeconds(1);
         bool isRunning = false;
-        internal bool isFLD = false;
+
+
         public PeriodicTaskRunner(CameraAccessor cameraAccessor, TimeSpan interval)
         {
             this.cameraAccessor = cameraAccessor;
@@ -28,7 +30,7 @@ namespace u22_strikeneck.Camera
         {
             if (isRunning) return;
             isRunning = true;
-            await Task.Run(() => Run());
+            await Task.Run( () => TaskFormat(Run) );
         }
          
         public void Stop()
@@ -36,27 +38,41 @@ namespace u22_strikeneck.Camera
             isRunning = false;
         }
 
+        private async Task TaskFormat(Func<Task> func)
+        {
+            var lastTime = DateTime.Now;
+            while (isRunning)
+            {
+                Task.Delay(1000).Wait();
+                var now = DateTime.Now;
+
+                if (now - lastTime < interval)
+                    continue;
+                lastTime = now;
+                await func();
+            }
+        }
+
         private async Task Run()
         {
-            while(isRunning)
-            {
-                var fldAPI = new API();
-                var dbWriter = new DatabaseWriter();
+            var fldAPI = new API();
+            var dbWriter = new DatabaseWriter();
+            var toastSender = new PeriodicToastSender();
 
-                var fileName = "image.png";
-                var timeStamp = DateTime.Now;
+            var fileName = "image.png";
+            var timeStamp = DateTime.Now;
 
-                var file = cameraAccessor.TakePhotoAsync(fileName);
-                var result = await fldAPI.Predict(file, 0);
+            var file = cameraAccessor.TakePhotoAsync(fileName);
+            var result = await fldAPI.Predict(file, 0);
 
-                await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
+            await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
-                #if DEBUG
-                    System.Diagnostics.Trace.WriteLine("FLD: " + result);
-                #endif
+#if DEBUG
+            Trace.WriteLine("FLD: " + result);
+#endif
 
-                await Task.Delay(interval);
-            }
+            if (result == true && toastSender.IsDurationPassed(timeStamp)) 
+                await toastSender.sendToast();
         }
     }
 }
