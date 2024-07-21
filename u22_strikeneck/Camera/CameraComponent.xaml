@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             x:Class="u22_strikeneck.Camera.CameraComponent">
+    <StackLayout>
+        <cv:CameraView x:Name="cameraView" 
+                       WidthRequest="3" 
+                       HeightRequest="2" 
+                       CamerasLoaded="cameraView_CamerasLoaded"
+                       IsVisible="false"/>
+    </StackLayout>
+    
+
+</ContentView>

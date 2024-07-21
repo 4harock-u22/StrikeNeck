@@ -8,8 +8,7 @@ namespace DiscriminantModel.ForwardLeanDetector
 {
     internal class ForwardLeanDetectionResource
     {
-        internal float fldBias = 0.0F;
-        internal static string TRAIN_CSV_FILE = FileSystem.AppDataDirectory + "\\train.csv";
+
     }
 
     internal enum InputType

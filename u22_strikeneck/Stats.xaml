@@ -36,7 +36,7 @@
                 <Picker x:Name="DurationPicker"
                         VerticalOptions="EndAndExpand"
                         HorizontalOptions="EndAndExpand"
-                        SelectedIndexChanged="DurationPicker_SelectedIndexChanged">
+                        SelectedIndexChanged="ChangSelectIndex">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>日間</x:String>
@@ -56,8 +56,8 @@
 
             <!-- フッター部分 -->
             <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
-                <Button Clicked="BackButton_Clicked" Text="〈" FontSize="Header" WidthRequest="30" HeightRequest="30" Margin="10,10,10,10" />
-                <Button Clicked="NextButton_Clicked" Text="〉" FontSize="Header" WidthRequest="30" HeightRequest="30" Margin="10,10,10,10" />
+                <Button Clicked="ClickBackButton" Text="〈" FontSize="Header" WidthRequest="30" HeightRequest="30" Margin="10,10,10,10" />
+                <Button Clicked="ClickNextButton" Text="〉" FontSize="Header" WidthRequest="30" HeightRequest="30" Margin="10,10,10,10" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>

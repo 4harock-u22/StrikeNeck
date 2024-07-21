@@ -1,45 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
-using SkiaSharp;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SkiaSharp.Views.Maui;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.Maui.Graphics;
-
-using LiveChartsCore.SkiaSharpView.Painting;
-
 
 namespace u22_strikeneck.ViewModels
 {
     public class StatsViewModel : INotifyPropertyChanged
     {
+        private List<float> startUpTime = new List<float>();
+        private List<float> poorPostureTime = new List<float>();
+        private List<string> axisLabels = new List<string>();
+
         private ISeries[] series;
-        private static float[] startUpTime = { 1, 2, 3, 4, 5, 6, 7 };
-        private static float[] poorPostureTime = { 7, 6, 5, 4, 3, 2, 1 };
+        private Axis[] xAxes;
+
         public StatsViewModel()
         {
             series = new ISeries[]
             {
-        new ColumnSeries<float> {
-            Values = startUpTime,
-            MaxBarWidth = 60,
-            IgnoresBarPosition = true},
-
-        new ColumnSeries<float> {
-            Values = poorPostureTime,
-            MaxBarWidth = 30,
-            IgnoresBarPosition = true}
+                new ColumnSeries<float> {
+                    Values = startUpTime.ToArray(),
+                    MaxBarWidth = 60,
+                    IgnoresBarPosition = true
+                },
+                new ColumnSeries<float> {
+                    Values = poorPostureTime.ToArray(),
+                    MaxBarWidth = 30,
+                    IgnoresBarPosition = true
+                }
             };
+
             xAxes = new[]
             {
-        new Axis { Labels = axisLabels }
-    };
+                new Axis { Labels = axisLabels.ToArray() }
+            };
         }
+
         public ISeries[] Series
         {
             get { return series; }
@@ -50,7 +49,6 @@ namespace u22_strikeneck.ViewModels
             }
         }
 
-        private Axis[] xAxes;
         public Axis[] XAxes
         {
             get { return xAxes; }
@@ -67,47 +65,53 @@ namespace u22_strikeneck.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        // Values を変数に代入する例
 
-        public static void SetStartUpTime(float[] newValues)
+        public void SetStartUpTime(List<float> newValues)
         {
             startUpTime = newValues;
         }
-        public static void SetPoorPostureTime(float[] newValues)
+
+        public void SetPoorPostureTime(List<float> newValues)
         {
             poorPostureTime = newValues;
         }
 
-        public void UpdateGraph()
-        {
-            series = new ISeries[]
-            {
-        new ColumnSeries<float> {
-            Values = startUpTime,
-            Stroke = null,
-            MaxBarWidth = 60,
-            IgnoresBarPosition = true,
-        },
-        new ColumnSeries<float> {
-            Values = poorPostureTime,
-            Stroke = null,
-            MaxBarWidth = 30,
-            IgnoresBarPosition = true,
-        }
-            };
-            XAxes = new[]
-            {
-        new Axis { Labels = axisLabels }
-    };
-            OnPropertyChanged(nameof(Series));
-            OnPropertyChanged(nameof(XAxes));
-        }
-
-        // Labels を変数に代入する例
-        private static string[] axisLabels = { "20", "21", "22", "23", "24", "25", "26" };
-        public static void SetAxisLabels(string[] newValues)
+        public void SetAxisLabels(List<string> newValues)
         {
             axisLabels = newValues;
+        }
+
+        public void UpdateGraph()
+        {
+            if (!(startUpTime.Count == axisLabels.Count && poorPostureTime.Count == axisLabels.Count)) 
+            {
+                File.AppendAllText("C://Log//log.txt", "not Equals\n");
+                return;
+            }
+            else
+            {
+                File.AppendAllText("C://Log//log.txt", "equals\n");
+            }
+            Series = new ISeries[]
+            {
+                new ColumnSeries<float> {
+                    Values = startUpTime.ToArray(),
+                    Stroke = null,
+                    MaxBarWidth = 60,
+                    IgnoresBarPosition = true
+                },
+                new ColumnSeries<float> {
+                    Values = poorPostureTime.ToArray(),
+                    Stroke = null,
+                    MaxBarWidth = 30,
+                    IgnoresBarPosition = true
+                }
+            };
+
+            XAxes = new[]
+            {
+                new Axis { Labels = axisLabels.ToArray() }
+            };
         }
     }
 }

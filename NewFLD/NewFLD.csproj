@@ -19,7 +19,10 @@
     <PackageReference Include="Microsoft.ML.FastTree" Version="3.0.0" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.16.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.1" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
     <EmbeddedResource Include="src\DiscriminantModel\PostureEstimates\Resources\posenet.onnx" LogicalName="posenet" />
+	<EmbeddedResource Include="MLModel1.zip" LogicalName="fldmodel" />
   </ItemGroup>
   <ItemGroup Label="MLModel1">
     <None Include="MLModel1.consumption.cs">
