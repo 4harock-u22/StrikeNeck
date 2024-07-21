@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              x:Class="u22_strikeneck.Init.Init2"
-             Title="Init2">
+             Title="初期設定2">
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -32,7 +32,7 @@
                 <Image x:Name="myImage" WidthRequest="300" HeightRequest="200" HorizontalOptions="Start" Margin="0,30,10,0"/>
                 <Label Text="悪い姿勢のサンプルが左に表示" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,30,29,0" />
                 <Label Text="されたら次へを押してください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,60,40,0" />
-                <Label Text="＊画像は約5秒で更新されます。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,0,0" />
+                <Label Text="＊画像は約10秒で表示されます。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,0,0" />
                 <Button Text="次へ"
                         WidthRequest="100" 
                         HeightRequest="30"

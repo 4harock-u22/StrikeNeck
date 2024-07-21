@@ -81,7 +81,7 @@ namespace u22_strikeneck
             var analytics = await GetAnalytics(selectedIndex, date);
 
             UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
-            myLabel.Text = "(分)";
+            myLabel.Text = "(蛻�)";
 
             StatsViewModel.Series = StatsViewModel.Series;
             StatsViewModel.XAxes = StatsViewModel.XAxes;
@@ -131,8 +131,8 @@ namespace u22_strikeneck
                 CharacterSpacing = 0.5
             };
 
-            string text = "テスト通知";
-            string actionButtonText = "設定を開く";
+            string text = "繝�繧ｹ繝磯夂衍";
+            string actionButtonText = "險ｭ螳壹ｒ髢九￥";
             Action action = async () => await Shell.Current.GoToAsync("//Settings");
             TimeSpan duration = TimeSpan.FromSeconds(3);
 
