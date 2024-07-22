@@ -41,7 +41,8 @@ public partial class Init2 : ContentPage
             {
                 await cameraAccessor.LoadCamera();
                 await Task.Delay(TimeSpan.FromMilliseconds(10));
-                await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
+                var takenPhoto = await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
+                myImage.Source = ImageSource.FromFile(takenPhoto.FullName);
             }
         });
     }
