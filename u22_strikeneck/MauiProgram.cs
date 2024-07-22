@@ -24,6 +24,8 @@ namespace u22_strikeneck
 
             SQLitePCL.Batteries.Init();
 
+            SQLitePCL.Batteries_V2.Init();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
