@@ -1,3 +1,7 @@
+using Camera.MAUI;
+using u22_strikeneck.Camera;
+using ImageFormat = Camera.MAUI.ImageFormat;
+
 namespace u22_strikeneck.Init;
 
 public partial class Init3 : ContentPage
@@ -28,7 +32,7 @@ public partial class Init3 : ContentPage
             if (StartTime.Second % 10 == 0)
             {
                 StartTime = TimeOnly.FromDateTime(DateTime.Now);
-                myImage.Source = cameraView.GetSnapShot(Camera.MAUI.ImageFormat.PNG);
+                myImage.Source = cameraView.GetSnapShot(ImageFormat.PNG);
                 await Task.Delay(TimeSpan.FromMilliseconds(1000));
                 StartTime = TimeOnly.FromDateTime(DateTime.Now);
             }

@@ -25,7 +25,7 @@
                 <!-- ボタンを短くして右側に配置 -->
                 <Button x:Name="start" 
                     Text="撮影を開始" 
-                    Clicked="TakePhoto"
+                    Clicked="TakePhotos"
                     WidthRequest="100" 
                     HeightRequest="30"
                     HorizontalOptions="End"
