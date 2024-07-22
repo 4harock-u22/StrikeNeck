@@ -24,6 +24,10 @@
         Title="初期設定2"
         ContentTemplate="{DataTemplate local:Init.Init2}"
         Route="Init2" />
+    <ShellContent
+        Title="再学習中"
+        ContentTemplate="{DataTemplate local:Init.RetrainLoadingPage}"
+        Route="RetrainLoadingPage" />
 
     <ShellContent
         Title="プレビュー"
