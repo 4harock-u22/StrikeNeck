@@ -8,6 +8,8 @@ namespace ForwardLeanDetection.DiscriminantModel
 {
     public class API
     {
+        private bool isRetraining = false;
+
         public async Task<bool> Predict(FileInfo fileInfo, double bias=0)
         {
             var result = false;
@@ -26,11 +28,18 @@ namespace ForwardLeanDetection.DiscriminantModel
 
         public async Task Retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
         {
-            await Task.Run(async () => {
+            await Task.Run(() => {
+                isRetraining = true;
                 var _fldAPI = new ForwardLeanDetectionAPI();
-                await _fldAPI.Retrain(currectPosture, forwardLeanPosture);
+                _fldAPI.Retrain(currectPosture, forwardLeanPosture).Wait();
+                isRetraining = false;
             });
             
+        }
+
+        public bool IsRetraining
+        {
+            get { return isRetraining; }
         }
     }
 }
