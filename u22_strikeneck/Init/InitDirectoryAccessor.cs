@@ -7,10 +7,22 @@ using System.Threading.Tasks;
 namespace u22_strikeneck.Init
 {
     internal class InitDirectoryAccessor
+
+
     {
-        private static string rootDirectoryPath = Path.Combine(FileSystem.CacheDirectory, "Local" ,"pic", "train");
-        private static string correctDirectoryPath = Path.Combine(rootDirectoryPath, "correct");
-        private static string forwardDirectoryPath = Path.Combine(rootDirectoryPath, "forward");
+        private static string rootDirectoryPath = Path.Combine(FileSystem.CacheDirectory, "Local" ,"pic");
+        private static string correctDirectoryPath = Path.Combine(rootDirectoryPath, "train", "correct");
+        private static string forwardDirectoryPath = Path.Combine(rootDirectoryPath, "train", "forward");
+
+        internal DirectoryInfo RootDirectoryInfo
+        {
+            get
+            {
+                var rootDirectoryInfo = new DirectoryInfo(rootDirectoryPath);
+                if (!rootDirectoryInfo.Exists) rootDirectoryInfo.Create();
+                return rootDirectoryInfo;
+            }
+        }
 
         internal DirectoryInfo CorrectDirectoryInfo
         {
