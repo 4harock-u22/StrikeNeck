@@ -62,7 +62,7 @@ namespace u22_strikeneck.Camera
             var timeStamp = DateTime.Now;
             var bias = appSettingReader.GetDetectionSensitivity().value;
 
-            var file = cameraAccessor.TakePhotoAsync(fileName);
+            var file = await cameraAccessor.TakePhotoAsync(fileName);
             var result = await fldAPI.Predict(file, bias);
 
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
