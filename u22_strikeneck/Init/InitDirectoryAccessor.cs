@@ -8,7 +8,7 @@ namespace u22_strikeneck.Init
 {
     internal class InitDirectoryAccessor
     {
-        private static string rootDirectoryPath = Path.Combine(FileSystem.CacheDirectory, "pic", "train");
+        private static string rootDirectoryPath = Path.Combine(FileSystem.CacheDirectory, "Local" ,"pic", "train");
         private static string correctDirectoryPath = Path.Combine(rootDirectoryPath, "correct");
         private static string forwardDirectoryPath = Path.Combine(rootDirectoryPath, "forward");
 
