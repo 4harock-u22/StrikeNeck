@@ -82,9 +82,6 @@ namespace u22_strikeneck
 
             UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
             myLabel.Text = "(•ª)";
-
-            StatsViewModel.Series = StatsViewModel.Series;
-            StatsViewModel.XAxes = StatsViewModel.XAxes;
             StatsViewModel.UpdateGraph();
         }
 
