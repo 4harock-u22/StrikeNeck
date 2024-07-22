@@ -3,17 +3,17 @@ using ImageFormat = Camera.MAUI.ImageFormat;
 
 namespace u22_strikeneck.Camera
 {
-    internal class CameraAccessor {
+    public class CameraAccessor {
 
         private CameraView cameraView;
         private DirectoryInfo savedDirectory;
-        internal CameraAccessor(CameraView cameraView, DirectoryInfo savedDirectory)
+        public CameraAccessor(CameraView cameraView, DirectoryInfo savedDirectory)
         {
             this.cameraView = cameraView;
             this.savedDirectory = savedDirectory;
         }
 
-        internal FileInfo TakePhotoAsync(String fileName="image.png")
+        public FileInfo TakePhotoAsync(String fileName="image.png")
         {
             var filePath = Path.Combine(savedDirectory.FullName, fileName);
             var resTask = cameraView.SaveSnapShot(ImageFormat.PNG, filePath);
@@ -28,7 +28,7 @@ namespace u22_strikeneck.Camera
             return new FileInfo(filePath);
         }
 
-        internal async Task LoadCamera()
+        public async Task LoadCamera()
         {
             if (cameraView.NumCamerasDetected == 0) throw new Exception("カメラを検知できませんでした");
 
