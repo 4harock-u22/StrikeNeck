@@ -22,7 +22,7 @@
                 <Label Text="押してください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,167,0" />
                 <Button x:Name="start" 
                 Text="撮影を開始" 
-                Clicked="TakePhoto"
+                Clicked="TakePhotos"
                 WidthRequest="100" 
                 HeightRequest="30"
                 HorizontalOptions="End"

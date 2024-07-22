@@ -85,12 +85,7 @@ namespace u22_strikeneck.ViewModels
         {
             if (!(startUpTime.Count == axisLabels.Count && poorPostureTime.Count == axisLabels.Count)) 
             {
-                File.AppendAllText("C://Log//log.txt", "not Equals\n");
                 return;
-            }
-            else
-            {
-                File.AppendAllText("C://Log//log.txt", "equals\n");
             }
             Series = new ISeries[]
             {
