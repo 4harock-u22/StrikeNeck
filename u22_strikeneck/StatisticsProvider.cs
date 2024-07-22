@@ -104,9 +104,6 @@ namespace u22_strikeneck
 
         public static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
         {
-            DatabaseWriter writer = new DatabaseWriter();
-            await writer.UpdateOrInsertPostureEventAsync(date, true);
-
             DatabaseReader reader = new DatabaseReader();
 
             DateTime end = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0).AddDays(1);
