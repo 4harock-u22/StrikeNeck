@@ -1,12 +1,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="u22_strikeneck.Stats"
+             xmlns:local="clr-namespace:u22_strikeneck.Camera"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              xmlns:vm="clr-namespace:u22_strikeneck.ViewModels"
             >
     <ContentPage.BindingContext>
         <vm:StatsViewModel/>
     </ContentPage.BindingContext>
+    <local:CameraComponent></local:CameraComponent>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>

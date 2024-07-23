@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:u22_strikeneck.Camera"
              x:Class="u22_strikeneck.Settings"
              Title="設定">
+    
     <ScrollView>
+        
         <VerticalStackLayout
             VerticalOptions="StartAndExpand">
+            <local:CameraComponent></local:CameraComponent>
             <Grid>
                 <!-- テキストを左上に配置 -->
                 <Label Text="通知" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="10,5,0,0" />
