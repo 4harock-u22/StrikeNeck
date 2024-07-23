@@ -43,7 +43,7 @@
                         HeightRequest="30"
                         Margin="0,150,20,0"/>
             </Grid>
-            <Label Text="今は良い姿勢です。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="0,0,29,0" />
+            <Label Text="今は良い姿勢です。"  x:Name="FLDResult"  VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="0,0,29,0" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

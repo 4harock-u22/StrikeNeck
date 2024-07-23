@@ -6,6 +6,7 @@ using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
+using NewFLD.src.DiscriminantModel.ForwardLeanDetector;
 
 namespace NewFLD
 {
@@ -106,8 +107,6 @@ namespace NewFLD
 
         #endregion
 
-        public static string MLNetModelPath = Path.GetFullPath("MLModel1.zip");
-
         public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
 
         /// <summary>
@@ -124,9 +123,8 @@ namespace NewFLD
         private static PredictionEngine<ModelInput, ModelOutput> CreatePredictEngine()
         {
             var mlContext = new MLContext();
-            var assembly = Assembly.GetExecutingAssembly();
-            var modelStream = assembly.GetManifestResourceStream("fldmodel");
-            ITransformer mlModel = mlContext.Model.Load(modelStream, out var _);
+            var modelPath = new ModelFileAccessor().GetModelFileInfo().Result.FullName;
+            ITransformer mlModel = mlContext.Model.Load(modelPath, out var _);
             return mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
         }
     }
