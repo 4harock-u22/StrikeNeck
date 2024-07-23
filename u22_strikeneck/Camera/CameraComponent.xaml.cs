@@ -19,7 +19,7 @@ public partial class CameraComponent : ContentView {
         var cameraAccessor = new CameraAccessor(cameraView, directoryInfo);
         this.cameraAccessor = cameraAccessor;
 
-        periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(3));
+        periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(60));
     }
 
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
