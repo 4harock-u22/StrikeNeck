@@ -9,12 +9,11 @@ public partial class RetrainLoadingPage : ContentPage
 	public RetrainLoadingPage()
 	{
 		InitializeComponent();
+		var api = new API();
 
-		MainThread.InvokeOnMainThreadAsync(async () => {
+		MainThread.BeginInvokeOnMainThread(async () => {
 			await Retrain();
-
-			while (fldAPI.IsRetraining) { }
-			await Shell.Current.GoToAsync("//Init3");
+			await Shell.Current.GoToAsync($"//Init3");
 		});
 	}
 

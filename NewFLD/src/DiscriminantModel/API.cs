@@ -1,6 +1,7 @@
 ﻿using DiscriminantModel.ForwardLeanDetector;
 using DiscriminantModel.PostureEstimates;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Reflection;
 using Image = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgb24>;
 
 
@@ -34,7 +35,6 @@ namespace ForwardLeanDetection.DiscriminantModel
                 _fldAPI.Retrain(currectPosture, forwardLeanPosture).Wait();
                 isRetraining = false;
             });
-            
         }
 
         public bool IsRetraining

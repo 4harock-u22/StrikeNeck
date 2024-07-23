@@ -4,7 +4,7 @@
              x:Class="u22_strikeneck.Init.RetrainLoadingPage"
              Title="RetrainLoadingPage">
     <VerticalStackLayout>
-        <Label Text="現在再学習しております。暫くお待ちください。"></Label>
+        <Label Text="現在再学習しております。暫くお待ちください。" x:Name="label"></Label>
         <ActivityIndicator IsRunning="true" />
     </VerticalStackLayout>
 </ContentPage>
