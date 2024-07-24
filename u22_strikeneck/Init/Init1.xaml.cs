@@ -16,12 +16,6 @@ namespace u22_strikeneck.Init
             cameraAccessor = new CameraAccessor(cameraView, savedDirectoryInfo);
         }
 
-        private void cameraView_CamerasLoaded(object sender, EventArgs e)
-        {
-            MainThread.BeginInvokeOnMainThread(
-                async () => await cameraAccessor.LoadCamera()
-            );
-        }
 
         private async void OnClicked(object sender, EventArgs e)
         {
@@ -33,15 +27,24 @@ namespace u22_strikeneck.Init
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 new InitDirectoryAccessor().ClearCorrectDirectory();
+                await cameraAccessor.LoadCamera();
                 for (int i = 0; i < 50; i++)
                 {
-                    await cameraAccessor.LoadCamera();
-                    
-                    await Task.Delay(TimeSpan.FromMilliseconds(10));
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
                     var takenPhoto = await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
                     myImage.Source = ImageSource.FromFile(takenPhoto.FullName);
                 }
             });
+        }
+        private void cameraView_CamerasLoaded(object sender, EventArgs e)
+        {
+            cameraAccessor.LoadCamera();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            cameraAccessor.RestartCameraAsync();
         }
     }
 }
