@@ -24,17 +24,11 @@ public partial class CameraComponent : ContentView {
 
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
-        if (cameraView.NumCamerasDetected == 0) throw new Exception("カメラを検知できませんでした");
-
-        cameraView.Camera = cameraView.Cameras.First();
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            await cameraView.StopCameraAsync();
-            var result = await cameraView.StartCameraAsync();
-            if (result != CameraResult.Success)
-                throw new Exception("カメラを正常に起動することができませんでした");
-            await Task.Delay(250);
+            await cameraAccessor.LoadCamera();
             await periodicTaskRunner.StartAsync();
         });
     }    
+
 }

@@ -1,48 +1,49 @@
+using u22_strikeneck.Camera;
+using ImageFormat = Camera.MAUI.ImageFormat;
+
 namespace u22_strikeneck.Init;
 
 public partial class Init2 : ContentPage
 {
-    private TimeOnly StartTime = TimeOnly.FromDateTime(DateTime.Now);
+    private CameraAccessor cameraAccessor;
+
     public Init2()
     {
         InitializeComponent();
+
+        var forwardDirectoryInfo = new InitDirectoryAccessor().ForwardDirectoryInfo;
+        cameraAccessor = new CameraAccessor(cameraView, forwardDirectoryInfo);
     }
+
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
-        cameraView.Camera = cameraView.Cameras.First();
-        MainThread.BeginInvokeOnMainThread(async () =>
-        {
-            await cameraView.StopCameraAsync();
-            var result = await cameraView.StartCameraAsync();
-
-        });
+        MainThread.BeginInvokeOnMainThread(
+            async () => await cameraAccessor.LoadCamera()
+        );
     }
-    private async void TakePhoto(object sender, EventArgs e)
-    {
-        await cameraView.StopCameraAsync();
-        var result = await cameraView.StartCameraAsync();
-        while (true)
-        {
-
-            await Task.Delay(TimeSpan.FromMilliseconds(10));
-            StartTime = TimeOnly.FromDateTime(DateTime.Now);
-
-            if (StartTime.Second % 5 == 0)
-            {
-                myImage.Source = cameraView.GetSnapShot(Camera.MAUI.ImageFormat.PNG);
-                await Task.Delay(TimeSpan.FromMilliseconds(1000));
-                StartTime = TimeOnly.FromDateTime(DateTime.Now);
-            }
-        }
-    }
-
 
     private async void ToInit3(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//Init3");
+        await Shell.Current.GoToAsync("//RetrainLoadingPage");
     }
+
     private async void ToInit1(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//Init1");
+    }
+
+    private void TakePhotos(object sender, EventArgs e)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            new InitDirectoryAccessor().ClearForwardDirectory();
+            for (int i = 0; i < 50; i++)
+            {
+                await cameraAccessor.LoadCamera();
+                await Task.Delay(TimeSpan.FromMilliseconds(10));
+                var takenPhoto = await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
+                myImage.Source = ImageSource.FromFile(takenPhoto.FullName);
+            }
+        });
     }
 }

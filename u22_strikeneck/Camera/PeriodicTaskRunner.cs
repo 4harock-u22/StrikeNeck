@@ -15,13 +15,6 @@ namespace u22_strikeneck.Camera
         {
             this.cameraAccessor = cameraAccessor;
             this.interval = interval;
-
-            #if DEBUG
-                var logFile = System.IO.File.OpenWrite(Path.Combine(FileSystem.CacheDirectory, "log.txt"));
-                var traceListener = new TextWriterTraceListener(logFile);
-                System.Diagnostics.Trace.AutoFlush = true;
-                System.Diagnostics.Trace.Listeners.Add(traceListener);
-            #endif
         }
 
         public async Task StartAsync()
@@ -62,14 +55,10 @@ namespace u22_strikeneck.Camera
             var timeStamp = DateTime.Now;
             var bias = appSettingReader.GetDetectionSensitivity().value;
 
-            var file = cameraAccessor.TakePhotoAsync(fileName);
+            var file = await cameraAccessor.TakePhotoAsync(fileName);
             var result = await fldAPI.Predict(file, bias);
 
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
-
-#if DEBUG
-            Trace.WriteLine("FLD: " + result);
-#endif
 
             if (result == true && toastSender.IsDurationPassed(timeStamp)) 
                 await toastSender.sendToast();

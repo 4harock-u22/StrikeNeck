@@ -81,7 +81,8 @@ namespace u22_strikeneck
             var analytics = await GetAnalytics(selectedIndex, date);
 
             UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
-            myLabel.Text = "(•ª)";
+            myLabel.Text = "(ï¿½ï¿½)";
+
             StatsViewModel.UpdateGraph();
         }
 
@@ -128,8 +129,8 @@ namespace u22_strikeneck
                 CharacterSpacing = 0.5
             };
 
-            string text = "ƒeƒXƒg’Ê’m";
-            string actionButtonText = "Ý’è‚ðŠJ‚­";
+            string text = "ãƒ†ã‚¹ãƒˆé€šçŸ¥";
+            string actionButtonText = "è¨­å®šã‚’é–‹ã";
             Action action = async () => await Shell.Current.GoToAsync("//Settings");
             TimeSpan duration = TimeSpan.FromSeconds(3);
 

@@ -5,6 +5,7 @@ public partial class Settings : ContentPage
     public Settings()
     {
         InitializeComponent();
+        notificationIntervalPicker.SelectedItem = "5";
     }
     private void ToggleSwitch_Toggled(Object sender, ToggledEventArgs e)
     {

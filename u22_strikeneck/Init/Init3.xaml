@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              x:Class="u22_strikeneck.Init.Init3"
-             Title="Init3">
+             Title="初期設定3">
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -43,7 +43,7 @@
                         HeightRequest="30"
                         Margin="0,150,20,0"/>
             </Grid>
-            <Label Text="今は良い姿勢です。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="0,0,29,0" />
+            <Label Text="今は良い姿勢です。"  x:Name="FLDResult"  VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="0,0,29,0" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

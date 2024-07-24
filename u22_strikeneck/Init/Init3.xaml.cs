@@ -1,38 +1,46 @@
+using Camera.MAUI;
+using ForwardLeanDetection.DiscriminantModel;
+using u22_strikeneck.Camera;
+using ImageFormat = Camera.MAUI.ImageFormat;
+
 namespace u22_strikeneck.Init;
 
 public partial class Init3 : ContentPage
 {
-    private TimeOnly StartTime = TimeOnly.FromDateTime(DateTime.Now);
+    private CameraAccessor cameraAccessor;
+
     public Init3()
     {
         InitializeComponent();
+
+        var rootDirectory = new InitDirectoryAccessor().RootDirectoryInfo;
+        cameraAccessor = new CameraAccessor(cameraView, rootDirectory);
     }
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
-        cameraView.Camera = cameraView.Cameras.First();
-        MainThread.BeginInvokeOnMainThread(async () =>
-        {
-            await cameraView.StopCameraAsync();
-            var result = await cameraView.StartCameraAsync();
-
+        MainThread.BeginInvokeOnMainThread( async () => {
+            await cameraAccessor.LoadCamera();
+            await Task.Delay(TimeSpan.FromMilliseconds(10));
+            await ActivateFLDTest();
         });
     }
 
-    private async void TakePhoto(object sender, EventArgs e)
+    private async Task ActivateFLDTest()
     {
+        var fld = new API();
         while (true)
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(10));
-            StartTime = TimeOnly.FromDateTime(DateTime.Now);
+            var fileInfo = await cameraAccessor.TakePhotoAsync("test.png");
 
-            if (StartTime.Second % 10 == 0)
-            {
-                StartTime = TimeOnly.FromDateTime(DateTime.Now);
-                myImage.Source = cameraView.GetSnapShot(Camera.MAUI.ImageFormat.PNG);
-                await Task.Delay(TimeSpan.FromMilliseconds(1000));
-                StartTime = TimeOnly.FromDateTime(DateTime.Now);
-            }
+            var isFLD = await fld.Predict(fileInfo);
+            myImage.Source = ImageSource.FromFile(fileInfo.FullName);
+
+            if (isFLD) FLDResult.Text = "ëOåXépê®Ç≈Ç∑";
+            else FLDResult.Text = "ê≥ÇµÇ¢épê®Ç≈Ç∑";
+
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
         }
+
     }
 
     private async void ToStats(object sender, EventArgs e)

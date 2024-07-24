@@ -3,6 +3,8 @@ using Image = SixLabors.ImageSharp.Image<SixLabors.ImageSharp.PixelFormats.Rgb24
 using SixLabors.ImageSharp.PixelFormats;
 using NewFLD;
 using Microsoft.ML;
+using System.Reflection;
+using NewFLD.src.DiscriminantModel.ForwardLeanDetector;
 
 namespace DiscriminantModel.ForwardLeanDetector
 {
@@ -12,11 +14,14 @@ namespace DiscriminantModel.ForwardLeanDetector
         internal async Task Retrain(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
         {
             var trainData = await this.BuildTrainData(currectPosture, forwardLeanPosture);
-            var modelPath = MLModel1.MLNetModelPath;
+            
+            var modelFileInfo = await new ModelFileAccessor().GetModelFileInfo();
+
+
             var context = new MLContext();
             var inputData = context.Data.LoadFromEnumerable<MLModel1.ModelInput>(trainData);
             var newModel = MLModel1.RetrainPipeline(context, inputData);
-            context.Model.Save(newModel, inputData.Schema, modelPath);
+            context.Model.Save(newModel, inputData.Schema, modelFileInfo.FullName);
         }
 
         private async Task<IEnumerable<MLModel1.ModelInput>> BuildTrainData(DirectoryInfo currectPosture, DirectoryInfo forwardLeanPosture)
