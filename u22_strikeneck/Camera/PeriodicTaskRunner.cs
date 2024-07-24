@@ -16,12 +16,7 @@ namespace u22_strikeneck.Camera
             this.cameraAccessor = cameraAccessor;
             this.interval = interval;
 
-            #if DEBUG
-                var logFile = System.IO.File.OpenWrite(Path.Combine(FileSystem.CacheDirectory, "log.txt"));
-                var traceListener = new TextWriterTraceListener(logFile);
-                System.Diagnostics.Trace.AutoFlush = true;
-                System.Diagnostics.Trace.Listeners.Add(traceListener);
-            #endif
+            
         }
 
         public async Task StartAsync()
