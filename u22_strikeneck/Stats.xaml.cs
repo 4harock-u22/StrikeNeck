@@ -81,10 +81,8 @@ namespace u22_strikeneck
             var analytics = await GetAnalytics(selectedIndex, date);
 
             UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
-            myLabel.Text = "(分)";
+            myLabel.Text = "(��)";
 
-            StatsViewModel.Series = StatsViewModel.Series;
-            StatsViewModel.XAxes = StatsViewModel.XAxes;
             StatsViewModel.UpdateGraph();
         }
 

@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Maui.Graphics;
+using SkiaSharp;
 
 namespace u22_strikeneck.ViewModels
 {
@@ -16,27 +18,11 @@ namespace u22_strikeneck.ViewModels
 
         private ISeries[] series;
         private Axis[] xAxes;
+        private Axis[] yAxes;
 
         public StatsViewModel()
         {
-            series = new ISeries[]
-            {
-                new ColumnSeries<float> {
-                    Values = startUpTime.ToArray(),
-                    MaxBarWidth = 60,
-                    IgnoresBarPosition = true
-                },
-                new ColumnSeries<float> {
-                    Values = poorPostureTime.ToArray(),
-                    MaxBarWidth = 30,
-                    IgnoresBarPosition = true
-                }
-            };
-
-            xAxes = new[]
-            {
-                new Axis { Labels = axisLabels.ToArray() }
-            };
+            UpdateGraph();
         }
 
         public ISeries[] Series
@@ -58,6 +44,8 @@ namespace u22_strikeneck.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public Axis[] YAxes { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -83,29 +71,39 @@ namespace u22_strikeneck.ViewModels
 
         public void UpdateGraph()
         {
-            if (!(startUpTime.Count == axisLabels.Count && poorPostureTime.Count == axisLabels.Count)) 
-            {
-                return;
-            }
             Series = new ISeries[]
             {
                 new ColumnSeries<float> {
                     Values = startUpTime.ToArray(),
                     Stroke = null,
-                    MaxBarWidth = 60,
-                    IgnoresBarPosition = true
+                    MaxBarWidth = 48,
+                    IgnoresBarPosition = true,
+                    Fill = new SolidColorPaint(SKColor.Parse("#26595A"))
                 },
                 new ColumnSeries<float> {
                     Values = poorPostureTime.ToArray(),
                     Stroke = null,
-                    MaxBarWidth = 30,
-                    IgnoresBarPosition = true
+                    MaxBarWidth = 24,
+                    IgnoresBarPosition = true,
+                    Fill = new SolidColorPaint(SKColor.Parse("#87E3E0"))
                 }
             };
 
             XAxes = new[]
             {
-                new Axis { Labels = axisLabels.ToArray() }
+                new Axis 
+                { 
+                    Labels = axisLabels.ToArray() 
+                }
+            };
+
+            YAxes = new[]
+            {
+                new Axis
+                {
+                    MaxLimit = 60,
+                    MinLimit = 0
+                }
             };
         }
     }
