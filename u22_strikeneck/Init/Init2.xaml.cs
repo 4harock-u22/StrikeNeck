@@ -15,13 +15,6 @@ public partial class Init2 : ContentPage
         cameraAccessor = new CameraAccessor(cameraView, forwardDirectoryInfo);
     }
 
-    private void cameraView_CamerasLoaded(object sender, EventArgs e)
-    {
-        MainThread.BeginInvokeOnMainThread(
-            async () => await cameraAccessor.LoadCamera()
-        );
-    }
-
     private async void ToInit3(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//RetrainLoadingPage");
@@ -37,13 +30,24 @@ public partial class Init2 : ContentPage
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             new InitDirectoryAccessor().ClearForwardDirectory();
+            await cameraAccessor.LoadCamera();
             for (int i = 0; i < 50; i++)
             {
-                await cameraAccessor.LoadCamera();
-                await Task.Delay(TimeSpan.FromMilliseconds(10));
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
                 var takenPhoto = await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
                 myImage.Source = ImageSource.FromFile(takenPhoto.FullName);
             }
         });
+    }
+
+    private void cameraView_CamerasLoaded(object sender, EventArgs e)
+    {
+        cameraAccessor.LoadCamera();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        cameraAccessor.RestartCameraAsync();
     }
 }

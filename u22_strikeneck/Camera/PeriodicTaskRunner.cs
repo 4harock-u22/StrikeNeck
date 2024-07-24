@@ -60,8 +60,10 @@ namespace u22_strikeneck.Camera
 
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
-            if (result == true && toastSender.IsDurationPassed(timeStamp)) 
-                await toastSender.sendToast();
+            if (!result) return;
+            if (!toastSender.IsDurationPassed(timeStamp)) return;
+            if (!toastSender.IsEnabled()) return;
+            await toastSender.sendToast();
         }
     }
 }
