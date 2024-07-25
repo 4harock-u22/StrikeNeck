@@ -39,5 +39,10 @@ namespace u22_strikeneck.Camera
             await cameraView.StopCameraAsync();
             await cameraView.StartCameraAsync();
         }
+
+        public async Task StopCameraAsync()
+        {
+            await cameraView.StopCameraAsync();
+        }
     }
 }
