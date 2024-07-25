@@ -9,6 +9,7 @@ namespace u22_strikeneck.Camera
         CameraAccessor cameraAccessor;
         TimeSpan interval = TimeSpan.FromSeconds(1);
         bool isRunning = false;
+        bool isStopped = false;
 
 
         public PeriodicTaskRunner(CameraAccessor cameraAccessor, TimeSpan interval)
@@ -21,12 +22,14 @@ namespace u22_strikeneck.Camera
         {
             if (isRunning) return;
             isRunning = true;
+            isStopped = false;
             await Task.Run( () => TaskFormat(Run) );
         }
          
         public void Stop()
         {
             isRunning = false;
+            while (!isStopped) ;
         }
 
         private async Task TaskFormat(Func<Task> func)
@@ -34,7 +37,7 @@ namespace u22_strikeneck.Camera
             var lastTime = DateTime.Now;
             while (isRunning)
             {
-                Task.Delay(1000).Wait();
+                await Task.Delay(1000);
                 var now = DateTime.Now;
 
                 if (now - lastTime < interval)
@@ -42,6 +45,7 @@ namespace u22_strikeneck.Camera
                 lastTime = now;
                 await func();
             }
+            isStopped = true;
         }
 
         private async Task Run()
@@ -61,7 +65,7 @@ namespace u22_strikeneck.Camera
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
             if (!result) return;
-            if (!toastSender.IsDurationPassed(timeStamp)) return;
+            //if (!toastSender.IsDurationPassed(timeStamp)) return;
             if (!toastSender.IsEnabled()) return;
             await toastSender.sendToast();
         }
