@@ -9,7 +9,6 @@
         
         <VerticalStackLayout
             VerticalOptions="StartAndExpand">
-            <local:CameraComponent></local:CameraComponent>
             <Grid>
                 <!-- テキストを左上に配置 -->
                 <Label Text="通知" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="Start" Margin="10,5,0,0" />
