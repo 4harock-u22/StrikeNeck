@@ -8,7 +8,6 @@
     <ContentPage.BindingContext>
         <vm:StatsViewModel/>
     </ContentPage.BindingContext>
-    <local:CameraComponent></local:CameraComponent>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -16,6 +15,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <local:CameraComponent x:Name="cameraComponent"></local:CameraComponent>
 
             <!-- ヘッダー部分 -->
             <StackLayout Grid.Row="0" Orientation="Horizontal" Margin="10">
