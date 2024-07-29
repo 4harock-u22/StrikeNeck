@@ -16,14 +16,9 @@ namespace u22_strikeneck.Camera
         public async Task<FileInfo> TakePhotoAsync(String fileName="image.png")
         {
             var filePath = Path.Combine(savedDirectory.FullName, fileName);
-            var resTask = await cameraView.SaveSnapShot(ImageFormat.PNG, filePath);
-            return new FileInfo(filePath);
-        }
-
-        internal FileInfo TakePhoto(String fileName = "image.png")
-        {
-            var filePath = Path.Combine(savedDirectory.FullName, fileName);
-            cameraView.SaveSnapShot(ImageFormat.PNG, filePath);
+            using var imageStream = await cameraView.TakePhotoAsync(ImageFormat.PNG);
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            await imageStream.CopyToAsync(fileStream);
             return new FileInfo(filePath);
         }
 
@@ -37,6 +32,12 @@ namespace u22_strikeneck.Camera
             if (result != CameraResult.Success)
                 throw new Exception("カメラを正常に起動することができませんでした");
             await Task.Delay(250);
+        }
+
+        public async Task RestartCameraAsync()
+        {
+            await cameraView.StopCameraAsync();
+            await cameraView.StartCameraAsync();
         }
     }
 }

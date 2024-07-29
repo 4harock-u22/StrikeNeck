@@ -15,8 +15,6 @@ namespace u22_strikeneck.Camera
         {
             this.cameraAccessor = cameraAccessor;
             this.interval = interval;
-
-            
         }
 
         public async Task StartAsync()
@@ -62,12 +60,10 @@ namespace u22_strikeneck.Camera
 
             await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
-#if DEBUG
-            Trace.WriteLine("FLD: " + result);
-#endif
-
-            if (result == true && toastSender.IsDurationPassed(timeStamp)) 
-                await toastSender.sendToast();
+            if (!result) return;
+            if (!toastSender.IsDurationPassed(timeStamp)) return;
+            if (!toastSender.IsEnabled()) return;
+            await toastSender.sendToast();
         }
     }
 }

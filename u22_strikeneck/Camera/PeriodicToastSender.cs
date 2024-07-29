@@ -18,6 +18,12 @@ namespace u22_strikeneck.Camera
             var duration = dataTime - lastSentTime;
             return duration >= interval;
         }
+
+        public bool IsEnabled()
+        {
+            var settingReader = new AppSettingReader();
+            return settingReader.GetNotificationStatus();
+        }
         public async Task sendToast()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
