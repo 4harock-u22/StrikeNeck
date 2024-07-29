@@ -17,6 +17,7 @@
                 <!-- スイッチを右上に配置 -->
                 <Switch x:Name="toggleSwitch"
                         Toggled="ToggleSwitch_Toggled"
+         
                         VerticalOptions="Start" HorizontalOptions="End" 
                         Margin="0,5,-51,0"/>
 
@@ -49,7 +50,7 @@
 
             <Grid>
                 <Label Text="検知感度" FontSize="Medium" Margin="10,5,0,0" VerticalOptions="Center" />
-                <Slider Value="50" Minimum="0" Maximum="100" Margin="0,10,40,0" VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="200" ValueChanged="Slider_ValueChanged" />
+                <Slider x:Name="slider" Value="0" Minimum="-1" Maximum="1" Margin="0,10,40,0" VerticalOptions="CenterAndExpand" HorizontalOptions="End" WidthRequest="200" ValueChanged="Slider_ValueChanged" />
 
 
             </Grid>
