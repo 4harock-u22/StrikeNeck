@@ -22,13 +22,26 @@ public partial class CameraComponent : ContentView {
         periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(60));
     }
 
+    public async void StartPeriodicTask()
+    {
+        cameraAccessor.RestartCameraAsync();
+        periodicTaskRunner.StartAsync();
+    }
+
+    public void StopPeriodicTask()
+    {
+        periodicTaskRunner.Stop();
+        cameraAccessor.StopCameraAsync();
+    }
+
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             await cameraAccessor.LoadCamera();
-            await periodicTaskRunner.StartAsync();
+            periodicTaskRunner.StartAsync();
         });
     }    
 
+    
 }

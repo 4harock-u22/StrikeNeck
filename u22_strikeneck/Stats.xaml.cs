@@ -143,5 +143,17 @@ namespace u22_strikeneck
         {
 
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            cameraComponent.StartPeriodicTask();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            cameraComponent.StopPeriodicTask();
+        }
     }
 }

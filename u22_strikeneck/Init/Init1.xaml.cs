@@ -31,7 +31,7 @@ namespace u22_strikeneck.Init
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 new InitDirectoryAccessor().ClearCorrectDirectory();
-                await cameraAccessor.LoadCamera();
+                //await cameraAccessor.LoadCamera();
                 for (int i = 0; i < 50; i++)
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
