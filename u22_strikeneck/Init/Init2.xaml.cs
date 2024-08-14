@@ -30,7 +30,7 @@ public partial class Init2 : ContentPage
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             new InitDirectoryAccessor().ClearForwardDirectory();
-            await cameraAccessor.LoadCamera();
+            //await cameraAccessor.LoadCamera();
             for (int i = 0; i < 50; i++)
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(100));
@@ -42,12 +42,24 @@ public partial class Init2 : ContentPage
 
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
-        cameraAccessor.LoadCamera();
+        MainThread.BeginInvokeOnMainThread(
+            async () => await cameraAccessor.LoadCamera()
+        );
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        cameraAccessor.RestartCameraAsync();
+        MainThread.BeginInvokeOnMainThread(
+            async () => await cameraAccessor.RestartCameraAsync()
+       );
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        MainThread.BeginInvokeOnMainThread(
+            async () => await cameraAccessor.StopCameraAsync()
+        );
     }
 }
