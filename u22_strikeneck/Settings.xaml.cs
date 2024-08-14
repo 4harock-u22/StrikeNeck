@@ -37,4 +37,15 @@ public partial class Settings : ContentPage
     {
         await Shell.Current.GoToAsync("//Init1");
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        cameraComponent.StartPeriodicTask();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        cameraComponent.StopPeriodicTask();
+    }
 }
