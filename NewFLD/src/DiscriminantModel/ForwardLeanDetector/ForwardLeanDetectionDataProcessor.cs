@@ -78,7 +78,7 @@ namespace DiscriminantModel.ForwardLeanDetector
             var correctPostureScore = modelOutput.Score[0];
             var forwardPostureScore = modelOutput.Score[1];
 
-            return correctPostureScore < forwardPostureScore + bias;
+            return correctPostureScore < (forwardPostureScore + bias);
         }
     }
 }
