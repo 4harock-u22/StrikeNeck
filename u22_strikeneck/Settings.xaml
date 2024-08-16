@@ -46,6 +46,14 @@
                     </Picker.ItemsSource>
                 </Picker>
 
+                <Picker x:Name="usedCameraPicker"
+                        VerticalOptions="EndAndExpand"
+                        Margin="0,10,40,0"
+                        HorizontalOptions="EndAndExpand"
+                        SelectedIndexChanged="UsedCameraPickerPicker_SelectedIndexChanged">
+                    
+                </Picker>
+
             </Grid>
 
             <Grid>
