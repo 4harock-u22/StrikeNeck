@@ -43,16 +43,23 @@ public partial class Init2 : ContentPage
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
         MainThread.BeginInvokeOnMainThread(
-            async () => await cameraAccessor.LoadCamera()
+            async () =>
+            {
+                var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+                await cameraAccessor.LoadCamera(currentCameraName);
+            }
         );
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        MainThread.BeginInvokeOnMainThread(
-            async () => await cameraAccessor.RestartCameraAsync()
-       );
+        //MainThread.BeginInvokeOnMainThread( async () => {
+        //    var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+        //    await cameraAccessor.LoadCamera(currentCameraName);
+        //});
+        var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+        cameraAccessor.LoadCamera(currentCameraName);
     }
 
     protected override void OnDisappearing()

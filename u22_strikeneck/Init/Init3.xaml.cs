@@ -21,7 +21,8 @@ public partial class Init3 : ContentPage
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
         MainThread.BeginInvokeOnMainThread( async () => {
-            await cameraAccessor.LoadCamera();
+            var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+            await cameraAccessor.LoadCamera(currentCameraName);
             await Task.Delay(TimeSpan.FromMilliseconds(10));
             await ActivateFLDTest();
         });

@@ -42,13 +42,20 @@ namespace u22_strikeneck.Init
         }
         private void cameraView_CamerasLoaded(object sender, EventArgs e)
         {
-            cameraAccessor.LoadCamera();
+            var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+            cameraAccessor.LoadCamera(currentCameraName);
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            cameraAccessor.RestartCameraAsync();
+            cameraAccessor = new CameraAccessor(cameraView, new InitDirectoryAccessor().CorrectDirectoryInfo);
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            cameraAccessor.StopCameraAsync();
         }
     }
 }
