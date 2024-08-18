@@ -20,7 +20,7 @@ namespace u22_strikeneck.AppSettingIO
                 Preferences.Default.Set(AppSettingKey.DetectionSensitivity.ToString(), 0d);
 
             if (!Preferences.Default.ContainsKey(AppSettingKey.UsedCamera.ToString()))
-                Preferences.Default.Set(AppSettingKey.UsedCamera.ToString(), "");
+                Preferences.Default.Set(AppSettingKey.UsedCamera.ToString(), "Integrated Webcam");
         }
 
         public bool GetNotificationStatus()
@@ -42,10 +42,10 @@ namespace u22_strikeneck.AppSettingIO
             return new DetectionSensitivity(Preferences.Default.Get(key, 0d));
         }
 
-        public string GetUsedCamera()
+        public string GetUsedCameraName()
         {
             var key = AppSettingKey.UsedCamera.ToString();
-            return Preferences.Default.Get(key, "");
+            return Preferences.Default.Get(key, "None");
         }
 
     }
