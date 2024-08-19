@@ -28,5 +28,12 @@ namespace u22_strikeneck.AppSettingIO
             var key = AppSettingKey.DetectionSensitivity.ToString();
             Preferences.Default.Set(key, sensitivity.value);
         }
+
+        public void UpdateUsedCameraName(string cameraName)
+        {
+            // Update used camera
+            var key = AppSettingKey.UsedCamera.ToString();
+            Preferences.Default.Set(key, cameraName);
+        }
     }
 }

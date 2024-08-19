@@ -19,12 +19,18 @@ public partial class CameraComponent : ContentView {
         var cameraAccessor = new CameraAccessor(cameraView, directoryInfo);
         this.cameraAccessor = cameraAccessor;
 
-        periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(60));
+        periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(3));
+    }
+
+    public CameraSelector GetCameraSelector()
+    {
+        return new CameraSelector(cameraView);
     }
 
     public async void StartPeriodicTask()
     {
-        cameraAccessor.RestartCameraAsync();
+        var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+        cameraAccessor.LoadCamera(currentCameraName);
         periodicTaskRunner.StartAsync();
     }
 
@@ -38,7 +44,8 @@ public partial class CameraComponent : ContentView {
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            await cameraAccessor.LoadCamera();
+            var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+            await cameraAccessor.LoadCamera(currentCameraName);
             periodicTaskRunner.StartAsync();
         });
     }    

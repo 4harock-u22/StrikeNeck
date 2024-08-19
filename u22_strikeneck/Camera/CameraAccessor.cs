@@ -22,22 +22,18 @@ namespace u22_strikeneck.Camera
             return new FileInfo(filePath);
         }
 
-        public async Task LoadCamera()
+        public async Task LoadCamera(string cameraDeviceName)
         {
-            if (cameraView.NumCamerasDetected == 0) throw new Exception("カメラを検知できませんでした");
+            var usedCamera = cameraView.Cameras.FirstOrDefault(camera => camera.Name == cameraDeviceName);
+            if (usedCamera == null)
+                throw new CameraNotFoundException($"指定されたカメラ({cameraDeviceName})が見つかりませんでした");
 
-            cameraView.Camera = cameraView.Cameras.First();
+            cameraView.Camera = usedCamera;
             await cameraView.StopCameraAsync();
             var result = await cameraView.StartCameraAsync();
             if (result != CameraResult.Success)
-                throw new Exception("カメラを正常に起動することができませんでした");
+                throw new CameraInitializationException("カメラを正常に起動することができませんでした");
             await Task.Delay(250);
-        }
-
-        public async Task RestartCameraAsync()
-        {
-            await cameraView.StopCameraAsync();
-            await cameraView.StartCameraAsync();
         }
 
         public async Task StopCameraAsync()

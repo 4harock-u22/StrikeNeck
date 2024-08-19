@@ -1,5 +1,6 @@
 namespace u22_strikeneck;
 using u22_strikeneck.AppSettingIO;
+using u22_strikeneck.Camera;
 
 public partial class Settings : ContentPage
 {
@@ -64,28 +65,15 @@ public partial class Settings : ContentPage
         await Shell.Current.GoToAsync("//Stats");
         
         AppSettingWriter appSettinger = new AppSettingWriter();
+
         appSettinger.UpdateNotificationStatus(isSwitchOn);
-        if (selectedValue == "1")
-        {
-            appSettinger.UpdateNotificationInterval(NotificationInterval.OneMinute);
-        }
-        else if (selectedValue == "5")
-        {
-            appSettinger.UpdateNotificationInterval(NotificationInterval.FiveMinutes);
-        }
-        else if (selectedValue == "15")
-        {
-            appSettinger.UpdateNotificationInterval(NotificationInterval.FifteenMinutes);
-        }
-        else if (selectedValue == "30")
-        {
-            appSettinger.UpdateNotificationInterval(NotificationInterval.ThirtyMinutes);
-        }
-        else
-        {
-            appSettinger.UpdateNotificationInterval(NotificationInterval.OneHour);
-        }
+
+        var interval = ConvertStringToNotoficationInterval(selectedValue);
+        appSettinger.UpdateNotificationInterval(interval);
+
         appSettinger.UpdateDetectionSensitivity(new DetectionSensitivity(sense));
+
+        appSettinger.UpdateUsedCameraName(usedCameraPicker.SelectedItem as string);
 
 
     }
@@ -97,6 +85,9 @@ public partial class Settings : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        var cameraNames = cameraComponent.GetCameraSelector().getCameraNames();
+        usedCameraPicker.ItemsSource = cameraNames;
+        usedCameraPicker.SelectedItem = new AppSettingReader().GetUsedCameraName();
         cameraComponent.StartPeriodicTask();
     }
 
@@ -104,5 +95,21 @@ public partial class Settings : ContentPage
     {
         base.OnDisappearing();
         cameraComponent.StopPeriodicTask();
+    }
+
+    private NotificationInterval ConvertStringToNotoficationInterval(string interval)
+    {
+        if (interval == "1") return NotificationInterval.OneMinute;
+        
+        else if (interval == "5") return NotificationInterval.FiveMinutes;
+        
+        else if (interval == "15") return NotificationInterval.FifteenMinutes;
+        
+        else if (interval == "30") return NotificationInterval.ThirtyMinutes;
+        
+        else if (interval == "60")return NotificationInterval.OneHour;
+
+        else throw new ArgumentException();
+        
     }
 }

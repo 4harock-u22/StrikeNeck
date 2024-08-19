@@ -11,5 +11,6 @@ namespace u22_strikeneck.AppSettingIO
         NotificationStatus,
         NotificationInterval,
         DetectionSensitivity,
+        UsedCamera
     }
 }
