@@ -1,27 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.Maui.Graphics;
+using Microsoft.VisualBasic;
 using SkiaSharp;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace u22_strikeneck.ViewModels
 {
     public class StatsViewModel : INotifyPropertyChanged
     {
-        private List<float> startUpTime = new List<float>();
-        private List<float> poorPostureTime = new List<float>();
-        private List<string> axisLabels = new List<string>();
+        private ObservableCollection<float> startUpTime = new ObservableCollection<float>();
+        private ObservableCollection<float> poorPostureTime = new ObservableCollection<float>();
+        private ObservableCollection<string> axisLabels = new ObservableCollection<string>();
 
         private ISeries[] series;
         private Axis[] xAxes;
         private Axis[] yAxes;
+        private DateTime currentDate;
+        private int selectedIndex;
 
         public StatsViewModel()
         {
+            currentDate = DateTime.Now;
             UpdateGraph();
         }
 
@@ -56,17 +63,26 @@ namespace u22_strikeneck.ViewModels
 
         public void SetStartUpTime(List<float> newValues)
         {
-            startUpTime = newValues;
+            for (int i = newValues.Count - 1; i >= 0; i--)
+            {
+                startUpTime.Insert(0, newValues[i]);
+            }
         }
 
         public void SetPoorPostureTime(List<float> newValues)
         {
-            poorPostureTime = newValues;
+            for (int i = newValues.Count - 1; i >= 0; i--)
+            {
+                poorPostureTime.Insert(0, newValues[i]);
+            }
         }
 
         public void SetAxisLabels(List<string> newValues)
         {
-            axisLabels = newValues;
+            for (int i = newValues.Count - 1; i >= 0; i--)
+            {
+                axisLabels.Insert(0, newValues[i]);
+            }
         }
 
         public void UpdateGraph()
@@ -105,6 +121,39 @@ namespace u22_strikeneck.ViewModels
                     MinLimit = 0
                 }
             };
+        }
+
+        public async Task SetDataAsync()
+        {
+            var analytics = await StatisticsProvider.GetAnalytics(selectedIndex, currentDate);
+
+            SetStartUpTime(analytics.ActivateTimes);
+            SetPoorPostureTime(analytics.ForwardLeanTimes);
+            SetAxisLabels(analytics.AxisLabels);
+
+            UpdateGraph();
+        }
+
+        public async Task LoadMoreDataAsync()
+        {
+            AdjustDateBackward();
+            await SetDataAsync();
+        }
+
+        public void SetSelectedIndex(int newIndex)
+        {
+            selectedIndex = newIndex;
+            UpdateGraph();
+        }
+
+        private void AdjustDateBackward()
+        {
+            switch (selectedIndex)
+            {
+                case 0: currentDate = currentDate.AddDays(-1); break;
+                case 1: currentDate = currentDate.AddDays(-7); break;
+                case 2: currentDate = currentDate.AddMonths(-1); break;
+            }
         }
     }
 }

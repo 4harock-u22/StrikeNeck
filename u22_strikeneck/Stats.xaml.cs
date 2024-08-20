@@ -8,15 +8,10 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Maui.Controls;
+using System.Diagnostics;
 
 namespace u22_strikeneck
 {
-    public class StatsData
-    {
-        public List<float> ActivateTimes { get; set; }
-        public List<float> ForwardLeanTimes { get; set; }
-        public List<string> AxisLabels { get; set; }
-    }
 
     public partial class Stats : ContentPage
     {
@@ -42,56 +37,21 @@ namespace u22_strikeneck
 
         private async void ChangSelectIndex(object sender, EventArgs e)
         {
-            await UpdateAnalytics(DurationPicker.SelectedIndex);
+            StatsViewModel.SetSelectedIndex(DurationPicker.SelectedIndex);
+            await StatsViewModel.SetDataAsync();
         }
 
-        private async void ClickBackButton(object sender, EventArgs e)
+        private async void OnScrollViewScrolled(object sender, ScrolledEventArgs e)
         {
-            await UpdateAnalytics(DurationPicker.SelectedIndex, isBack: true);
-        }
+            // 水平方向のスクロール位置を取得
+            double horizontalOffset = e.ScrollX;
 
-        private async void ClickNextButton(object sender, EventArgs e)
-        {
-            await UpdateAnalytics(DurationPicker.SelectedIndex, isNext: true);
-        }
-
-        private async Task UpdateAnalytics(int selectedIndex, bool isBack = false, bool isNext = false)
-        {
-            Label myLabel = this.FindByName<Label>("unit");
-
-            if (isBack)
+            // スクロールが先頭に達したとき
+            if (horizontalOffset <= 0)
             {
-                switch (selectedIndex)
-                {
-                    case 0: date = date.AddDays(-1); break;
-                    case 1: date = date.AddDays(-7); break;
-                    case 2: date = date.AddMonths(-1); break;
-                }
+                StatsViewModel.SetSelectedIndex(DurationPicker.SelectedIndex);
+                await StatsViewModel.LoadMoreDataAsync();
             }
-            else if (isNext)
-            {
-                switch (selectedIndex)
-                {
-                    case 0: date = date.AddDays(1); break;
-                    case 1: date = date.AddDays(7); break;
-                    case 2: date = date.AddMonths(1); break;
-                }
-            }
-
-            var analytics = await StatisticsProvider.GetAnalytics(selectedIndex, date);
-
-            UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
-            myLabel.Text = "(分)";
-
-            StatsViewModel.UpdateGraph();
-        }
-
-
-        private void UpdateStatsViewModel(List<float> activateTimes, List<float> forwardLeanTimes, List<string> axisLabels)
-        {
-            StatsViewModel.SetStartUpTime(activateTimes);
-            StatsViewModel.SetPoorPostureTime(forwardLeanTimes);
-            StatsViewModel.SetAxisLabels(axisLabels);
         }
 
         private async void ImageButton_Clicked(object sender, EventArgs e)

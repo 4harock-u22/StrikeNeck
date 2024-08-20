@@ -16,6 +16,13 @@ namespace u22_strikeneck
         public DateTime Date { get; set; } // 週次や月次の場合の日付
     }
 
+    public class StatsData
+    {
+        public List<float> ActivateTimes { get; set; }
+        public List<float> ForwardLeanTimes { get; set; }
+        public List<string> AxisLabels { get; set; }
+    }
+
     public static class StatisticsProvider
     {
         private const int checkPostureInterval = 1;
