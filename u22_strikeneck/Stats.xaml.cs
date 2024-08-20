@@ -78,28 +78,14 @@ namespace u22_strikeneck
                 }
             }
 
-            var analytics = await GetAnalytics(selectedIndex, date);
+            var analytics = await StatisticsProvider.GetAnalytics(selectedIndex, date);
 
             UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
-            myLabel.Text = "(��)";
+            myLabel.Text = "(分)";
 
             StatsViewModel.UpdateGraph();
         }
 
-        private async Task<StatsData> GetAnalytics(int selectedIndex, DateTime date)
-        {
-            switch (selectedIndex)
-            {
-                case 0:
-                    return await StatisticsProvider.ProcessDailyAnalyticsData(date, 24);
-                case 1:
-                    return await StatisticsProvider.ProcessWeeklyAnalyticsData(date, 7);
-                case 2:
-                    return await StatisticsProvider.ProcessMonthlyAnalyticsData(date, 30);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
         private void UpdateStatsViewModel(List<float> activateTimes, List<float> forwardLeanTimes, List<string> axisLabels)
         {

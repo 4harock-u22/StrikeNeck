@@ -18,10 +18,23 @@ namespace u22_strikeneck
 
     public static class StatisticsProvider
     {
-        // 姿勢検知の実行間隔(固定するので削除予定)
         private const int checkPostureInterval = 1;
+        public static async Task<StatsData> GetAnalytics(int selectedIndex, DateTime date)
+        {
+            switch (selectedIndex)
+            {
+                case 0:
+                    return await ProcessDailyAnalyticsData(date, 24);
+                case 1:
+                    return await ProcessWeeklyAnalyticsData(date, 7);
+                case 2:
+                    return await ProcessMonthlyAnalyticsData(date, 30);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
-        public static async Task<StatsData> ProcessDailyAnalyticsData(DateTime date, int length)
+        private static async Task<StatsData> ProcessDailyAnalyticsData(DateTime date, int length)
         {
             var analyticsData = await GetAnalyticsPerDayAsync(date);
             var result = new StatsData
@@ -36,7 +49,7 @@ namespace u22_strikeneck
             return result;
         }
 
-        public static async Task<StatsData> ProcessWeeklyAnalyticsData(DateTime date, int length)
+        private static async Task<StatsData> ProcessWeeklyAnalyticsData(DateTime date, int length)
         {
             var analyticsData = await GetAnalyticsPerWeekAsync(date);
             var result = new StatsData
@@ -69,7 +82,7 @@ namespace u22_strikeneck
             return result;
         }
 
-        public static async Task<StatsData> ProcessMonthlyAnalyticsData(DateTime date, int length)
+        private static async Task<StatsData> ProcessMonthlyAnalyticsData(DateTime date, int length)
         {
             var analyticsData = await GetAnalyticsPerMonthAsync(date);
             var result = new StatsData
@@ -102,7 +115,7 @@ namespace u22_strikeneck
             return result;
         }
 
-        public static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
+        private static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
         {
             DatabaseReader reader = new DatabaseReader();
 
@@ -136,7 +149,7 @@ namespace u22_strikeneck
             return analyticsDataList;
         }
 
-        public static async Task<List<AnalyticsData>> GetAnalyticsPerWeekAsync(DateTime date)
+        private static async Task<List<AnalyticsData>> GetAnalyticsPerWeekAsync(DateTime date)
         {
             DatabaseReader reader = new DatabaseReader();
 
@@ -170,7 +183,7 @@ namespace u22_strikeneck
             return analyticsDataList;
         }
 
-        public static async Task<List<AnalyticsData>> GetAnalyticsPerMonthAsync(DateTime date)
+        private static async Task<List<AnalyticsData>> GetAnalyticsPerMonthAsync(DateTime date)
         {
             DatabaseReader reader = new DatabaseReader();
 
