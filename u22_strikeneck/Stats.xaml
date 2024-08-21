@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:u22_strikeneck.Camera"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              xmlns:vm="clr-namespace:u22_strikeneck.ViewModels"
-            >
+>
     
     <ContentPage.BindingContext>
         <vm:StatsViewModel/>
