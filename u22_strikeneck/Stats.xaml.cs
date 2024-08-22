@@ -49,10 +49,17 @@ namespace u22_strikeneck
             await StatsViewModel.UpdateStatsAsync(isNext: true);
         }
 
+        private async void ClickResetDateButton(object sender, EventArgs e)
+        {
+            StatsViewModel.SetCurrentDate();
+            await StatsViewModel.UpdateStatsAsync();
+        }
+
         private async void ImageButton_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//Settings");
         }
+
 
         private async void MakeToast(object sender, EventArgs e)
         {

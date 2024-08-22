@@ -60,7 +60,7 @@ namespace u22_strikeneck
 
             var averageEvents = groupedEvents.Select(g => new PostureEvent
             {
-                Timestamp = g.Min(e => e.Timestamp),
+                Timestamp = g.Min(e => e.Timestamp).Date,
                 Check = g.Average(e => e.Check),
                 Detection = g.Average(e => e.Detection)
             }).ToList();

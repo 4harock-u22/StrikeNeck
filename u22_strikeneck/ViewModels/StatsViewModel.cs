@@ -24,7 +24,7 @@ namespace u22_strikeneck.ViewModels
 
         public StatsViewModel()
         {
-            currentDate = DateTime.Now;
+            SetCurrentDate();
             UpdateAnalytics();
         }
 
@@ -97,6 +97,11 @@ namespace u22_strikeneck.ViewModels
             selectedIndex = newIndex;
         }
 
+        public void SetCurrentDate()
+        {
+            currentDate = DateTime.Now;
+        }
+
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -124,7 +129,7 @@ namespace u22_strikeneck.ViewModels
                 new ColumnSeries<float> {
                     Values = StatsDatas.ActivateTimes.ToArray(),
                     Stroke = null,
-                    MaxBarWidth = 48,
+                    MaxBarWidth = 24,
                     IgnoresBarPosition = true,
                     Fill = new SolidColorPaint(SKColor.Parse("#26595A"))
                 },
