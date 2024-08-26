@@ -131,7 +131,7 @@ namespace u22_strikeneck.ViewModels
                     Stroke = null,
                     MaxBarWidth = 24,
                     IgnoresBarPosition = true,
-                    Fill = new SolidColorPaint(SKColor.Parse("#26595A"))
+                    Fill = new SolidColorPaint(SKColor.Parse("#87E3E0"))
                 },
                 new ColumnSeries<float> {
                     Values = StatsDatas.ForwardLeanTimes.ToArray(),
