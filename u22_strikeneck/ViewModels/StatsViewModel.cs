@@ -138,15 +138,15 @@ namespace u22_strikeneck.ViewModels
                     Stroke = null,
                     MaxBarWidth = 24,
                     IgnoresBarPosition = true,
-                    Fill = new SolidColorPaint(SKColor.Parse("#87E3E0"))
+                    Fill = new SolidColorPaint(SKColor.Parse("#26595A"))
                 }
             };
 
             XAxes = new[]
             {
                 new Axis 
-                { 
-                    Labels = StatsDatas.AxisLabels.ToArray() 
+                {
+                    Labels = StatsDatas.AxisLabels.ToArray(),
                 }
             };
 
@@ -155,7 +155,7 @@ namespace u22_strikeneck.ViewModels
                 new Axis
                 {
                     MaxLimit = 60,
-                    MinLimit = 0
+                    MinLimit = 0,
                 }
             };
         }
