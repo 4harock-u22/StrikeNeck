@@ -1,5 +1,6 @@
 ﻿using Camera.MAUI;
 using ImageFormat = Camera.MAUI.ImageFormat;
+using u22_strikeneck.Camera.CameraException;
 
 namespace u22_strikeneck.Camera
 {
@@ -7,6 +8,8 @@ namespace u22_strikeneck.Camera
 
         private CameraView cameraView;
         private DirectoryInfo savedDirectory;
+
+        public bool IsLoaded => cameraView.Camera != null;
         public CameraAccessor(CameraView cameraView, DirectoryInfo savedDirectory)
         {
             this.cameraView = cameraView;
@@ -17,6 +20,7 @@ namespace u22_strikeneck.Camera
         {
             var filePath = Path.Combine(savedDirectory.FullName, fileName);
             using var imageStream = await cameraView.TakePhotoAsync(ImageFormat.PNG);
+            if (imageStream == null) throw new PhotoCaptureFailedException();
             using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             await imageStream.CopyToAsync(fileStream);
             return new FileInfo(filePath);
@@ -24,9 +28,9 @@ namespace u22_strikeneck.Camera
 
         public async Task LoadCamera(string cameraDeviceName)
         {
-            var usedCamera = cameraView.Cameras.FirstOrDefault(camera => camera.Name == cameraDeviceName);
+            var usedCamera = cameraView.Cameras.FirstOrDefault(camera => camera.Name == cameraDeviceName, null);
             if (usedCamera == null)
-                throw new CameraNotFoundException($"指定されたカメラ({cameraDeviceName})が見つかりませんでした");
+                throw new CameraNotFoundException($"設定されているカメラ({cameraDeviceName})が見つかりませんでした");
 
             cameraView.Camera = usedCamera;
             await cameraView.StopCameraAsync();
