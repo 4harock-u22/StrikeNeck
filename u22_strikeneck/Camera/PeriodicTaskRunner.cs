@@ -9,9 +9,10 @@ namespace u22_strikeneck.Camera
         CameraAccessor cameraAccessor;
         TimeSpan interval = TimeSpan.FromSeconds(1);
         bool isRunning = false;
-        bool isStopped = false;
+        bool isStopped = true;
 
 
+        public bool IsRunning => isRunning;
         public PeriodicTaskRunner(CameraAccessor cameraAccessor, TimeSpan interval)
         {
             this.cameraAccessor = cameraAccessor;
@@ -28,7 +29,10 @@ namespace u22_strikeneck.Camera
          
         public void Stop()
         {
+            if(!isRunning) return;
+
             isRunning = false;
+
             while (!isStopped) ;
         }
 
