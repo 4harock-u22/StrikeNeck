@@ -1,4 +1,7 @@
 using Camera.MAUI;
+using CommunityToolkit.Maui.Core;
+using System.Threading;
+using u22_strikeneck.Camera.CameraException;
 using ImageFormat = Camera.MAUI.ImageFormat;
 
 namespace u22_strikeneck.Camera;
@@ -12,6 +15,9 @@ public partial class CameraComponent : ContentView {
     {
         InitializeComponent();
 
+        new AppSettingIO.AppSettingWriter().UpdateUsedCameraName("Integrated Webcam");
+        //new AppSettingIO.AppSettingWriter().UpdateUsedCameraName("None");
+
         var directoryPath = Path.Combine(FileSystem.Current.CacheDirectory, "local", "pic");
         var directoryInfo = new DirectoryInfo(directoryPath);
         if (! directoryInfo.Exists) directoryInfo.Create();
@@ -19,7 +25,7 @@ public partial class CameraComponent : ContentView {
         var cameraAccessor = new CameraAccessor(cameraView, directoryInfo);
         this.cameraAccessor = cameraAccessor;
 
-        periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(3));
+        periodicTaskRunner = new PeriodicTaskRunner(cameraAccessor, TimeSpan.FromSeconds(60));
     }
 
     public CameraSelector GetCameraSelector()
@@ -29,9 +35,16 @@ public partial class CameraComponent : ContentView {
 
     public async void StartPeriodicTask()
     {
-        var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
-        cameraAccessor.LoadCamera(currentCameraName);
-        periodicTaskRunner.StartAsync();
+        try
+        {
+            var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+            cameraAccessor.LoadCamera(currentCameraName);
+            if (cameraAccessor.IsLoaded) await periodicTaskRunner.StartAsync();
+        }
+        catch (CameraException.CameraException e)
+        {
+            await new ToastSender().SendToast("カメラの起動に失敗しました。設定を確認してください。");
+        }
     }
 
     public void StopPeriodicTask()
@@ -44,9 +57,16 @@ public partial class CameraComponent : ContentView {
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
-            await cameraAccessor.LoadCamera(currentCameraName);
-            periodicTaskRunner.StartAsync();
+            try
+            {
+                var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+                await cameraAccessor.LoadCamera(currentCameraName);
+                if(cameraAccessor.IsLoaded) await periodicTaskRunner.StartAsync();
+            }catch(CameraException.CameraException e)
+            {
+                await new ToastSender().SendToast("カメラの起動に失敗しました。設定を確認してください。");
+            
+            }
         });
     }    
 
