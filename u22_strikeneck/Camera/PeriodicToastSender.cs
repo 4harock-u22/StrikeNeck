@@ -8,6 +8,7 @@ namespace u22_strikeneck.Camera
     internal class PeriodicToastSender
     {
         private static DateTime lastSentTime = DateTime.Now.AddDays(-1);
+        private ToastSender toastSender = new ToastSender();
 
 
         public bool IsDurationPassed(DateTime dataTime)
@@ -26,12 +27,7 @@ namespace u22_strikeneck.Camera
         }
         public async Task sendToast()
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            await Toast.Make("前傾姿勢になっています。姿勢を正してください！！",
-                      ToastDuration.Short,
-                      16)
-                .Show(cancellationTokenSource.Token);
-
+            await toastSender.SendToast("前傾姿勢になっています。姿勢を正してください！！");
             lastSentTime = DateTime.Now;
         }
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace u22_strikeneck.Camera
+namespace u22_strikeneck.Camera.CameraException
 {
-    public class CameraInitializationException : Exception
+    public class CameraInitializationException : CameraException
     {
         public CameraInitializationException()
             : base("Failed to initialize the camera.")

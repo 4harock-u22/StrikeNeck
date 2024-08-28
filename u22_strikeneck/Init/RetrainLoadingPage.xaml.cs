@@ -9,13 +9,18 @@ public partial class RetrainLoadingPage : ContentPage
 	public RetrainLoadingPage()
 	{
 		InitializeComponent();
+	}
+
+	override protected void OnAppearing()
+	{
+        base.OnAppearing();
 		var api = new API();
 
 		MainThread.BeginInvokeOnMainThread(async () => {
 			await Retrain();
 			await Shell.Current.GoToAsync($"//Init3");
 		});
-	}
+    }
 
 	private async Task Retrain()
 	{

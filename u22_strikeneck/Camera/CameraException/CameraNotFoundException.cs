@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace u22_strikeneck.Camera
+﻿namespace u22_strikeneck.Camera.CameraException
 {
-    public class CameraNotFoundException : Exception
+    public class CameraNotFoundException : CameraException
     {
         public CameraNotFoundException()
             : base("The specified camera could not be found.")
