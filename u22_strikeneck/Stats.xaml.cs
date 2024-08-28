@@ -11,17 +11,9 @@ using Microsoft.Maui.Controls;
 
 namespace u22_strikeneck
 {
-    public class StatsData
-    {
-        public List<float> ActivateTimes { get; set; }
-        public List<float> ForwardLeanTimes { get; set; }
-        public List<string> AxisLabels { get; set; }
-    }
-
     public partial class Stats : ContentPage
     {
         private StatsViewModel statsViewModel;
-        DateTime date;
         public StatsViewModel StatsViewModel
         {
             get { return statsViewModel; }
@@ -36,82 +28,38 @@ namespace u22_strikeneck
             InitializeComponent();
             Binding binding = new Binding();
             StatsViewModel = new StatsViewModel();
-            date = DateTime.Now;
             DurationPicker.SelectedIndex = 0;
         }
 
         private async void ChangSelectIndex(object sender, EventArgs e)
         {
-            await UpdateAnalytics(DurationPicker.SelectedIndex);
+            StatsViewModel.SetSelectedIndex(DurationPicker.SelectedIndex);
+            await StatsViewModel.UpdateStatsAsync();
         }
 
         private async void ClickBackButton(object sender, EventArgs e)
         {
-            await UpdateAnalytics(DurationPicker.SelectedIndex, isBack: true);
+            StatsViewModel.SetSelectedIndex(DurationPicker.SelectedIndex);
+            await StatsViewModel.UpdateStatsAsync(isBack: true);
         }
 
         private async void ClickNextButton(object sender, EventArgs e)
         {
-            await UpdateAnalytics(DurationPicker.SelectedIndex, isNext: true);
+            StatsViewModel.SetSelectedIndex(DurationPicker.SelectedIndex);
+            await StatsViewModel.UpdateStatsAsync(isNext: true);
         }
 
-        private async Task UpdateAnalytics(int selectedIndex, bool isBack = false, bool isNext = false)
+        private async void ClickResetDateButton(object sender, EventArgs e)
         {
-            Label myLabel = this.FindByName<Label>("unit");
-
-            if (isBack)
-            {
-                switch (selectedIndex)
-                {
-                    case 0: date = date.AddDays(-1); break;
-                    case 1: date = date.AddDays(-7); break;
-                    case 2: date = date.AddMonths(-1); break;
-                }
-            }
-            else if (isNext)
-            {
-                switch (selectedIndex)
-                {
-                    case 0: date = date.AddDays(1); break;
-                    case 1: date = date.AddDays(7); break;
-                    case 2: date = date.AddMonths(1); break;
-                }
-            }
-
-            var analytics = await GetAnalytics(selectedIndex, date);
-
-            UpdateStatsViewModel(analytics.ActivateTimes, analytics.ForwardLeanTimes, analytics.AxisLabels);
-            myLabel.Text = "(��)";
-
-            StatsViewModel.UpdateGraph();
-        }
-
-        private async Task<StatsData> GetAnalytics(int selectedIndex, DateTime date)
-        {
-            switch (selectedIndex)
-            {
-                case 0:
-                    return await StatisticsProvider.ProcessDailyAnalyticsData(date, 24);
-                case 1:
-                    return await StatisticsProvider.ProcessWeeklyAnalyticsData(date, 7);
-                case 2:
-                    return await StatisticsProvider.ProcessMonthlyAnalyticsData(date, 30);
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void UpdateStatsViewModel(List<float> activateTimes, List<float> forwardLeanTimes, List<string> axisLabels)
-        {
-            StatsViewModel.SetStartUpTime(activateTimes);
-            StatsViewModel.SetPoorPostureTime(forwardLeanTimes);
-            StatsViewModel.SetAxisLabels(axisLabels);
+            StatsViewModel.SetCurrentDate();
+            await StatsViewModel.UpdateStatsAsync();
         }
 
         private async void ImageButton_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//Settings");
         }
+
 
         private async void MakeToast(object sender, EventArgs e)
         {

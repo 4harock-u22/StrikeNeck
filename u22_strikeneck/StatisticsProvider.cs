@@ -16,13 +16,42 @@ namespace u22_strikeneck
         public DateTime Date { get; set; } // 週次や月次の場合の日付
     }
 
+    public class StatsData
+    {
+        public List<float> ActivateTimes { get; set; }
+        public List<float> ForwardLeanTimes { get; set; }
+        public List<string> AxisLabels { get; set; }
+
+        public StatsData()
+        {
+            ActivateTimes = new List<float>();
+            ForwardLeanTimes = new List<float>();
+            AxisLabels = new List<string>();
+        }
+    }
+
     public static class StatisticsProvider
     {
-        // 姿勢検知の実行間隔(固定するので削除予定)
         private const int checkPostureInterval = 1;
 
-        public static async Task<StatsData> ProcessDailyAnalyticsData(DateTime date, int length)
+        public static async Task<StatsData> GetAnalytics(int selectedIndex, DateTime date)
         {
+            switch (selectedIndex)
+            {
+                case 0:
+                    return await ProcessDailyAnalyticsData(date);
+                case 1:
+                    return await ProcessWeeklyAnalyticsData(date);
+                case 2:
+                    return await ProcessMonthlyAnalyticsData(date);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static async Task<StatsData> ProcessDailyAnalyticsData(DateTime date)
+        {
+            int length = 24;
             var analyticsData = await GetAnalyticsPerDayAsync(date);
             var result = new StatsData
             {
@@ -36,8 +65,9 @@ namespace u22_strikeneck
             return result;
         }
 
-        public static async Task<StatsData> ProcessWeeklyAnalyticsData(DateTime date, int length)
+        private static async Task<StatsData> ProcessWeeklyAnalyticsData(DateTime date)
         {
+            int length = 7;
             var analyticsData = await GetAnalyticsPerWeekAsync(date);
             var result = new StatsData
             {
@@ -69,8 +99,9 @@ namespace u22_strikeneck
             return result;
         }
 
-        public static async Task<StatsData> ProcessMonthlyAnalyticsData(DateTime date, int length)
+        private static async Task<StatsData> ProcessMonthlyAnalyticsData(DateTime date)
         {
+            int length = calcMonthlyDays(date);
             var analyticsData = await GetAnalyticsPerMonthAsync(date);
             var result = new StatsData
             {
@@ -102,7 +133,14 @@ namespace u22_strikeneck
             return result;
         }
 
-        public static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
+        private static int calcMonthlyDays(DateTime date)
+        {
+            DateTime oneMonthAgo = date.AddMonths(-1);
+            TimeSpan difference = date - oneMonthAgo;
+            return difference.Days;
+        }
+
+        private static async Task<List<AnalyticsData>> GetAnalyticsPerDayAsync(DateTime date)
         {
             DatabaseReader reader = new DatabaseReader();
 
@@ -136,7 +174,7 @@ namespace u22_strikeneck
             return analyticsDataList;
         }
 
-        public static async Task<List<AnalyticsData>> GetAnalyticsPerWeekAsync(DateTime date)
+        private static async Task<List<AnalyticsData>> GetAnalyticsPerWeekAsync(DateTime date)
         {
             DatabaseReader reader = new DatabaseReader();
 
@@ -155,7 +193,7 @@ namespace u22_strikeneck
                     Date = dateTime
                 };
 
-                if (postureEventsByDay.Count > 0 && index < postureEventsByDay.Count)
+                if (IsNotRegistered(postureEventsByDay, index))
                 {
                     if (postureEventsByDay[index].Timestamp == data.Date)
                     {
@@ -170,16 +208,18 @@ namespace u22_strikeneck
             return analyticsDataList;
         }
 
-        public static async Task<List<AnalyticsData>> GetAnalyticsPerMonthAsync(DateTime date)
+
+        private static async Task<List<AnalyticsData>> GetAnalyticsPerMonthAsync(DateTime date)
         {
             DatabaseReader reader = new DatabaseReader();
 
             DateTime end = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0).AddDays(1);
-            DateTime begin = end.AddDays(-30);
+            DateTime begin = end.AddMonths(-1);
             var postureEventsByDay = await reader.GetAveragePostureEventsByDayAsync(begin, end);
             List<AnalyticsData> analyticsDataList = new List<AnalyticsData>();
             int index = 0;
-            for (int i = 0; i < 30; i++)
+            int month_days = calcMonthlyDays(date);
+            for (int i = 0; i < month_days; i++)
             {
                 var dateTime = new DateTime(begin.Year, begin.Month, begin.Day, 0, 0, 0).AddDays(i);
                 var data = new AnalyticsData
@@ -189,7 +229,7 @@ namespace u22_strikeneck
                     Date = dateTime
                 };
 
-                if (postureEventsByDay.Count > 0 && index < postureEventsByDay.Count)
+                if (IsNotRegistered(postureEventsByDay, index))
                 {
                     if (postureEventsByDay[index].Timestamp == data.Date)
                     {
@@ -202,6 +242,22 @@ namespace u22_strikeneck
                 analyticsDataList.Add(data);
             }
             return analyticsDataList;
+        }
+
+        private static bool IsNotRegistered(List<PostureEvent> posture_events, int index)
+        {
+            if (posture_events.Count == 0)
+            {
+                return false;
+            }
+            if (index < posture_events.Count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

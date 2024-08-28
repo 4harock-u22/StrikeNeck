@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:u22_strikeneck.Camera"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              xmlns:vm="clr-namespace:u22_strikeneck.ViewModels"
-            >
+>
     
     <ContentPage.BindingContext>
         <vm:StatsViewModel/>
@@ -29,11 +29,11 @@
                              Clicked="ImageButton_Clicked" />
                 <StackLayout Margin="20,0,0,0" Spacing="10">
                     <StackLayout Orientation="Horizontal" Spacing="10">
-                        <BoxView Color="Red" WidthRequest="50" HeightRequest="4" />
+                        <BoxView Color="{AppThemeBinding Light={StaticResource StatsLabel1}, Dark={StaticResource StatsLabel1}}" WidthRequest="50" HeightRequest="4" />
                         <Label Text="姿勢が悪かった時間" FontSize="Small" VerticalOptions="Center" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" Spacing="10">
-                        <BoxView Color="SkyBlue" WidthRequest="50" HeightRequest="4" />
+                        <BoxView Color="{AppThemeBinding Light={StaticResource StatsLabel2}, Dark={StaticResource StatsLabel2}}" WidthRequest="50" HeightRequest="4" />
                         <Label Text="起動時間" FontSize="Small" VerticalOptions="Center" />
                     </StackLayout>
                 </StackLayout>
@@ -63,6 +63,7 @@
             <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
                 <Button Clicked="ClickBackButton" Text="〈" FontSize="Header" WidthRequest="30" HeightRequest="30" Margin="10,10,10,10" />
                 <Button Clicked="ClickNextButton" Text="〉" FontSize="Header" WidthRequest="30" HeightRequest="30" Margin="10,10,10,10" />
+                <Button Grid.Column="1" Clicked="ClickResetDateButton" Text="現在時刻にリセット" FontSize="16" WidthRequest="200" HeightRequest="30" Margin="10,10,10,10"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
