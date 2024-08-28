@@ -37,18 +37,23 @@
                 <Label Text="正しい姿勢のサンプルが左に表示" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,30,9,0" />
                 <Label Text="されたら次へを押してください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,60,40,0" />
                 <Label Text="＊首をゆっくり左右に振ってください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,0,0" />
-                <Button Text="次へ"
-                    WidthRequest="100" 
-                    HeightRequest="30"
-                    HorizontalOptions="End"
-                    Margin="0,90,20,-20"
-                    Clicked="OnClicked" />
-                <Button Text="戻る"
-                    WidthRequest="100" 
-                    HeightRequest="30"
-                    HorizontalOptions="End"
-                    Margin="0,240,20,20"
-                    Clicked="ToStats" />
+
+                <Grid ColumnDefinitions="Auto,20,Auto" HorizontalOptions="End" Margin="0,150,0,0">
+                    <!-- 戻るボタン -->
+                    <Button Text="戻る"
+                        WidthRequest="100" 
+                        HeightRequest="30"
+                        HorizontalOptions="End"
+                        Clicked="ToSettings" />
+
+                    <!-- 次へボタン -->
+                    <Button Text="次へ"
+                        Grid.Column="2"
+                        WidthRequest="100" 
+                        HeightRequest="30"
+                        HorizontalOptions="End"
+                        Clicked="OnClicked" />
+                </Grid>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>

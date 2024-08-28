@@ -87,10 +87,6 @@ namespace u22_strikeneck
             await snackbar.Show(cancellationTokenSource.Token);
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-
-        }
 
         protected override void OnAppearing()
         {
