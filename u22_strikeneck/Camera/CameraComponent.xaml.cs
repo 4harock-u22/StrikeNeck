@@ -15,9 +15,6 @@ public partial class CameraComponent : ContentView {
     {
         InitializeComponent();
 
-        new AppSettingIO.AppSettingWriter().UpdateUsedCameraName("Integrated Webcam");
-        //new AppSettingIO.AppSettingWriter().UpdateUsedCameraName("None");
-
         var directoryPath = Path.Combine(FileSystem.Current.CacheDirectory, "local", "pic");
         var directoryInfo = new DirectoryInfo(directoryPath);
         if (! directoryInfo.Exists) directoryInfo.Create();
