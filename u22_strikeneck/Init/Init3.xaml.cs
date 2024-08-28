@@ -10,6 +10,7 @@ public partial class Init3 : ContentPage
     private CameraAccessor cameraAccessor;
     private bool isTesting = false;
     private bool isRunningTest = false;
+    private bool isInitialized = false;
 
     public Init3()
     {
@@ -20,12 +21,31 @@ public partial class Init3 : ContentPage
     }
     private void cameraView_CamerasLoaded(object sender, EventArgs e)
     {
-        MainThread.BeginInvokeOnMainThread( async () => {
+        cameraLoad();
+    }
+
+    private void cameraLoad()
+    {
+        MainThread.BeginInvokeOnMainThread(async () => {
             var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
             await cameraAccessor.LoadCamera(currentCameraName);
             await Task.Delay(TimeSpan.FromMilliseconds(10));
             await ActivateFLDTest();
         });
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (!isInitialized) return;
+        cameraLoad();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        cameraAccessor.StopCameraAsync();
+        isInitialized = true;
     }
 
     private async Task ActivateFLDTest()
