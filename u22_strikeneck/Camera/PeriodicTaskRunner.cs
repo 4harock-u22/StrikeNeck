@@ -1,6 +1,7 @@
 ﻿using ForwardLeanDetection.DiscriminantModel;
 using System.Diagnostics;
 using u22_strikeneck.AppSettingIO;
+using u22_strikeneck.Camera.CameraException;
 
 namespace u22_strikeneck.Camera
 {
@@ -54,24 +55,31 @@ namespace u22_strikeneck.Camera
 
         private async Task Run()
         {
-            var fldAPI = new API();
-            var dbWriter = new DatabaseWriter();
-            var appSettingReader = new AppSettingReader();
-            var toastSender = new PeriodicToastSender();
+            try
+            {
+                var fldAPI = new API();
+                var dbWriter = new DatabaseWriter();
+                var appSettingReader = new AppSettingReader();
+                var toastSender = new PeriodicToastSender();
 
-            var fileName = "image.png";
-            var timeStamp = DateTime.Now;
-            var bias = appSettingReader.GetDetectionSensitivity().value;
+                var fileName = "image.png";
+                var timeStamp = DateTime.Now;
+                var bias = appSettingReader.GetDetectionSensitivity().value;
 
-            var file = await cameraAccessor.TakePhotoAsync(fileName);
-            var result = await fldAPI.Predict(file, bias);
+                var file = await cameraAccessor.TakePhotoAsync(fileName);
+                var result = await fldAPI.Predict(file, bias);
 
-            await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
+                await dbWriter.UpdateOrInsertPostureEventAsync(timeStamp, result);
 
-            if (!result) return;
-            if (!toastSender.IsDurationPassed(timeStamp)) return;
-            if (!toastSender.IsEnabled()) return;
-            await toastSender.sendToast();
+                if (!result) return;
+                if (!toastSender.IsDurationPassed(timeStamp)) return;
+                if (!toastSender.IsEnabled()) return;
+                await toastSender.sendToast();
+            }
+            catch (PhotoCaptureFailedException e)
+            {
+                await new ToastSender().SendToast("写真の撮影に失敗しました。カメラが利用可能かを確認してください。");
+            }
         }
     }
 }

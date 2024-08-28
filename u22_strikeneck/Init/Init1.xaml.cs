@@ -36,9 +36,16 @@ namespace u22_strikeneck.Init
                 //await cameraAccessor.LoadCamera();
                 for (int i = 0; i < 50; i++)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(100));
-                    var takenPhoto = await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
-                    myImage.Source = ImageSource.FromFile(takenPhoto.FullName);
+                    try
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(100));
+                        var takenPhoto = await cameraAccessor.TakePhotoAsync($"photo_{i + 1}.png");
+                        myImage.Source = ImageSource.FromFile(takenPhoto.FullName);
+                    }
+                    catch (PhotoCaptureFailedException e)
+                    {
+                        i -= 1;
+                    }
                 }
             });
         }

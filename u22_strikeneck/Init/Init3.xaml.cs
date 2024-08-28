@@ -1,6 +1,7 @@
 using Camera.MAUI;
 using ForwardLeanDetection.DiscriminantModel;
 using u22_strikeneck.Camera;
+using u22_strikeneck.Camera.CameraException;
 using ImageFormat = Camera.MAUI.ImageFormat;
 
 namespace u22_strikeneck.Init;
@@ -55,13 +56,17 @@ public partial class Init3 : ContentPage
         var fld = new API();
         while (isTesting)
         {
-            var fileInfo = await cameraAccessor.TakePhotoAsync("test.png");
+            try
+            {
+                var fileInfo = await cameraAccessor.TakePhotoAsync("test.png");
 
-            var isFLD = await fld.Predict(fileInfo);
-            myImage.Source = ImageSource.FromFile(fileInfo.FullName);
+                var isFLD = await fld.Predict(fileInfo);
+                myImage.Source = ImageSource.FromFile(fileInfo.FullName);
 
-            if (isFLD) FLDResult.Text = "ëOåXépê®Ç≈Ç∑";
-            else FLDResult.Text = "ê≥ÇµÇ¢épê®Ç≈Ç∑";
+                if (isFLD) FLDResult.Text = "ëOåXépê®Ç≈Ç∑";
+                else FLDResult.Text = "ê≥ÇµÇ¢épê®Ç≈Ç∑";
+            }catch(PhotoCaptureFailedException e)
+            { }
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
         }
