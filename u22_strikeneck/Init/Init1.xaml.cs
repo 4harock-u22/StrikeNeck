@@ -1,11 +1,13 @@
 using u22_strikeneck.Camera;
 using ImageFormat = Camera.MAUI.ImageFormat;
+using u22_strikeneck.Camera.CameraException;
 
 namespace u22_strikeneck.Init
 {
     public partial class Init1 : ContentPage
     {
         private CameraAccessor cameraAccessor;
+        bool isInitialized = false;
 
         public Init1()
         {
@@ -42,20 +44,45 @@ namespace u22_strikeneck.Init
         }
         private void cameraView_CamerasLoaded(object sender, EventArgs e)
         {
-            var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
-            cameraAccessor.LoadCamera(currentCameraName);
+            MainThread.BeginInvokeOnMainThread(async () => {
+                try
+                {
+                    var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+                    cameraAccessor = new CameraAccessor(cameraView, new InitDirectoryAccessor().CorrectDirectoryInfo);
+                    await cameraAccessor.LoadCamera(currentCameraName);
+                }
+                catch (CameraNotFoundException ex)
+                {
+                    await new ToastSender().SendToast("カメラを正常に起動できませんでした。設定を確認して下さい。"); 
+                    await Shell.Current.GoToAsync("//Settings");
+                }
+
+            });
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            cameraAccessor = new CameraAccessor(cameraView, new InitDirectoryAccessor().CorrectDirectoryInfo);
+            if(!isInitialized) return;
+            MainThread.BeginInvokeOnMainThread(async () => {
+                try
+                {
+                    var currentCameraName = new AppSettingIO.AppSettingReader().GetUsedCameraName();
+                    await cameraAccessor.LoadCamera(currentCameraName);
+                }
+                catch (CameraNotFoundException ex)
+                {
+                    await new ToastSender().SendToast("カメラを正常に起動できませんでした。設定を確認してください。");
+                    await Shell.Current.GoToAsync("//Settings");
+                }
+            });
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             cameraAccessor.StopCameraAsync();
+            isInitialized = true;
         }
     }
 }

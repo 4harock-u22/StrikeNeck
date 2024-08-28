@@ -62,7 +62,6 @@ public partial class Settings : ContentPage
     }
     private async void CompleteButton_Clicked(Object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//Stats");
         
         AppSettingWriter appSettinger = new AppSettingWriter();
 
@@ -75,12 +74,15 @@ public partial class Settings : ContentPage
 
         appSettinger.UpdateUsedCameraName(usedCameraPicker.SelectedItem as string);
 
+        await Shell.Current.GoToAsync("//Stats");
 
     }
 
-    private async void ToInit1(Object sender, EventArgs e)
+    private void ToInit1(Object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//Init1");
+        cameraComponent.StopPeriodicTask();
+        Task.Delay(250);
+        Shell.Current.GoToAsync("//Init1");
     }
     protected override void OnAppearing()
     {
