@@ -32,7 +32,6 @@ public partial class Settings : ContentPage
         {
             selectedValue = "60";
         }
-        
 
         slider.Value = appSettingReader.GetDetectionSensitivity().value;
     }

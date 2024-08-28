@@ -23,9 +23,9 @@ namespace u22_strikeneck.Init
         {
             await Shell.Current.GoToAsync("//Init2");
         }
-        private async void ToStats(object sender, EventArgs e)
+        private async void ToSettings(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//Stats");
+            await Shell.Current.GoToAsync("//Settings");
         }
 
         private void TakePhotos(object sender, EventArgs e)
