@@ -34,8 +34,8 @@
             </Grid>
             <Grid>
                 <Image x:Name="myImage" WidthRequest="300" HeightRequest="200" HorizontalOptions="Start" Margin="0,30,10,0"/>
-                <Label Text="正しい姿勢のサンプルが左に表示" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,30,9,0" />
-                <Label Text="されたら次へを押してください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,60,40,0" />
+                <Label Text="左の画像が止まったら次へを押して" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,30,10,0" />
+                <Label Text="ください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,60,235,0" />
                 <Label Text="＊首をゆっくり左右に振ってください。" VerticalOptions="Start" FontSize="Medium" HorizontalOptions="End" Margin="0,90,0,0" />
 
                 <Grid ColumnDefinitions="Auto,20,Auto" HorizontalOptions="End" Margin="0,150,0,0">
