@@ -34,7 +34,7 @@ namespace u22_strikeneck.Camera
 
             isRunning = false;
 
-            while (!isStopped) ;
+            //while (!isStopped) ;
         }
 
         private async Task TaskFormat(Func<Task> func)
@@ -43,6 +43,7 @@ namespace u22_strikeneck.Camera
             while (isRunning)
             {
                 await Task.Delay(1000);
+                if (!isRunning) break;
                 var now = DateTime.Now;
 
                 if (now - lastTime < interval)

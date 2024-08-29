@@ -47,6 +47,7 @@ public partial class CameraComponent : ContentView {
     public void StopPeriodicTask()
     {
         periodicTaskRunner.Stop();
+        Task.Delay(500);
         cameraAccessor.StopCameraAsync();
     }
 
