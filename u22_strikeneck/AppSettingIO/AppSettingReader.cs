@@ -17,7 +17,7 @@ namespace u22_strikeneck.AppSettingIO
                 Preferences.Default.Set(AppSettingKey.NotificationInterval.ToString(), (int)NotificationInterval.FifteenMinutes);
 
             if (!Preferences.Default.ContainsKey(AppSettingKey.DetectionSensitivity.ToString()))
-                Preferences.Default.Set(AppSettingKey.DetectionSensitivity.ToString(), 0d);
+                Preferences.Default.Set(AppSettingKey.DetectionSensitivity.ToString(), 1d);
 
             if (!Preferences.Default.ContainsKey(AppSettingKey.UsedCamera.ToString()))
                 Preferences.Default.Set(AppSettingKey.UsedCamera.ToString(), "Integrated Webcam");
