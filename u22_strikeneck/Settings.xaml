@@ -30,7 +30,6 @@
                 <Picker x:Name="notificationIntervalPicker"
                         VerticalOptions="Start"
                         HorizontalOptions="End"
-                         
                         SelectedIndexChanged="NotificationIntervalPicker_SelectedIndexChanged">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -73,7 +72,7 @@
 
 
 
-            <Grid ColumnDefinitions="Auto,20,Auto" HorizontalOptions="End" Margin="0,100,30,0">
+            <Grid ColumnDefinitions="Auto,20,Auto" HorizontalOptions="End" Margin="0,35,30,0">
                 <!-- キャンセルボタン -->
                 <Button Grid.Column="0" 
                         Text="キャンセル" 

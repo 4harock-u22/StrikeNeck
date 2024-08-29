@@ -10,30 +10,7 @@ public partial class Settings : ContentPage
     public Settings()
     {
         InitializeComponent();
-        AppSettingReader appSettingReader = new AppSettingReader();
-        toggleSwitch.IsToggled = appSettingReader.GetNotificationStatus();
-        if (appSettingReader.GetNotificationInterval() == NotificationInterval.OneMinute)
-        {
-            selectedValue = "1";
-        }
-        else if (appSettingReader.GetNotificationInterval() == NotificationInterval.FiveMinutes)
-        {
-            selectedValue = "5";
-        }
-        else if (appSettingReader.GetNotificationInterval() == NotificationInterval.FifteenMinutes)
-        {
-            selectedValue = "15";
-        }
-        else if (appSettingReader.GetNotificationInterval() == NotificationInterval.ThirtyMinutes)
-        {
-            selectedValue = "30";
-        }
-        else
-        {
-            selectedValue = "60";
-        }
-
-        slider.Value = appSettingReader.GetDetectionSensitivity().value;
+        
     }
     private void ToggleSwitch_Toggled(Object sender, ToggledEventArgs e)
     {
@@ -88,6 +65,30 @@ public partial class Settings : ContentPage
         usedCameraPicker.ItemsSource = cameraNames;
         usedCameraPicker.SelectedItem = new AppSettingReader().GetUsedCameraName();
         cameraComponent.StartPeriodicTask();
+        AppSettingReader appSettingReader = new AppSettingReader();
+        toggleSwitch.IsToggled = appSettingReader.GetNotificationStatus();
+        if (appSettingReader.GetNotificationInterval() == NotificationInterval.OneMinute)
+        {
+            notificationIntervalPicker.SelectedItem = "1";
+        }
+        else if (appSettingReader.GetNotificationInterval() == NotificationInterval.FiveMinutes)
+        {
+            notificationIntervalPicker.SelectedItem = "5";
+        }
+        else if (appSettingReader.GetNotificationInterval() == NotificationInterval.FifteenMinutes)
+        {
+            notificationIntervalPicker.SelectedItem = "15";
+        }
+        else if (appSettingReader.GetNotificationInterval() == NotificationInterval.ThirtyMinutes)
+        {
+            notificationIntervalPicker.SelectedItem = "30";
+        }
+        else
+        {
+            notificationIntervalPicker.SelectedItem = "60";
+        }
+
+        slider.Value = appSettingReader.GetDetectionSensitivity().value;
     }
 
     protected override void OnDisappearing()
