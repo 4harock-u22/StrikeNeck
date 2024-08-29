@@ -73,7 +73,7 @@
 
 
 
-            <Grid ColumnDefinitions="Auto,20,Auto" HorizontalOptions="End" Margin="0,100,30,0">
+            <Grid ColumnDefinitions="Auto,20,Auto" HorizontalOptions="End" Margin="0,160,30,0">
                 <!-- キャンセルボタン -->
                 <Button Grid.Column="0" 
                         Text="キャンセル" 
