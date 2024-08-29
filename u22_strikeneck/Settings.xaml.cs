@@ -79,8 +79,6 @@ public partial class Settings : ContentPage
 
     private void ToInit1(Object sender, EventArgs e)
     {
-        cameraComponent.StopPeriodicTask();
-        Task.Delay(250);
         Shell.Current.GoToAsync("//Init1");
     }
     protected override void OnAppearing()
