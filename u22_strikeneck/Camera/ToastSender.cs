@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 
 namespace u22_strikeneck.Camera
 {
@@ -8,6 +7,8 @@ namespace u22_strikeneck.Camera
     {
         internal async Task SendToast(string message)
         {
+            var toastIsEnabled = new AppSettingIO.AppSettingReader().GetNotificationStatus();
+            if (!toastIsEnabled) return;
 
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             await Toast.Make(message,
