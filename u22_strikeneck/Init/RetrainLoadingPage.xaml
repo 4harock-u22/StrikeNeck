@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="u22_strikeneck.Init.RetrainLoadingPage"
-             Title="Now Roading">
+             Title="学習中...">
     <VerticalStackLayout>
-        <Label Text="現在再学習しています。しばらくお待ちください。" Margin="10,10,10,10" x:Name="label" FontSize="Medium" ></Label>
+        <Label Text="現在学習しています。しばらくお待ちください。" Margin="10,10,10,10" x:Name="label" FontSize="Medium" ></Label>
         <ActivityIndicator IsRunning="true" />
     </VerticalStackLayout>
 </ContentPage>
